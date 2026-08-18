@@ -1,0 +1,7 @@
+BarberSaaS V7.7 — Baixa financeira de comissões
+
+- Marcar comissão como paga agora cria uma despesa no Financeiro.
+- A despesa identifica profissional, atendimento e venda quando disponíveis.
+- Operação idempotente: clicar novamente não duplica a despesa.
+- A comissão só muda para paid junto com a criação da despesa.
+- Feedback visual após pagamento.

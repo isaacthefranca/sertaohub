@@ -1,0 +1,6 @@
+V7.16
+- Logo superior da SertãoHub alterada para a versão branca.
+- Logo superior aumentada.
+- Logo do rodapé aumentada.
+- Ajustes de altura do cabeçalho e espaçamento do hero para comportar a marca maior.
+- Nenhuma lógica interna do sistema foi alterada.

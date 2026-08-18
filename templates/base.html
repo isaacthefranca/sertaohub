@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ tenant.primary_color if tenant else '#111827' }}">
+  <link rel="manifest" href="/manifest.json">
+  <link rel="stylesheet" href="/static/css/app.css?v=76">
+  <title>{% block title %}BarberSaaS{% endblock %}</title>
+</head>
+<body>
+{% if user %}
+{% set path=request.url.path %}
+<aside class="sidebar">
+  <a class="brand" href="/app">
+    {% if tenant.logo_url %}<img src="{{tenant.logo_url}}">{% else %}<span class="brandmark">B</span>{% endif %}
+    <b>{{tenant.name}}</b>
+  </a>
+  <nav>
+    <a class="{% if path=='/app' %}active{% endif %}" href="/app">◫ <span>Dashboard</span></a>
+    <a class="{% if path.startswith('/app/appointments') %}active{% endif %}" href="/app/appointments">▦ <span>Agenda</span></a>
+    <a class="{% if path.startswith('/app/schedules') %}active{% endif %}" href="/app/schedules">◷ <span>Horários</span></a>
+    <a class="{% if path.startswith('/app/customers') %}active{% endif %}" href="/app/customers">♙ <span>Clientes</span></a>
+    <a class="{% if path.startswith('/app/professionals') %}active{% endif %}" href="/app/professionals">♟ <span>Profissionais</span></a>
+    <a class="{% if path.startswith('/app/team') %}active{% endif %}" href="/app/team">☺ <span>Acessos da equipe</span></a>
+    <a class="{% if path.startswith('/app/services') %}active{% endif %}" href="/app/services">✂ <span>Serviços</span></a>
+    <a class="{% if path.startswith('/app/pdv') %}active{% endif %}" href="/app/pdv">▣ <span>PDV / Vendas</span></a>
+    <a class="{% if path.startswith('/app/cash') %}active{% endif %}" href="/app/cash">▤ <span>Caixa</span></a>
+    <a class="{% if path.startswith('/app/products') %}active{% endif %}" href="/app/products">□ <span>Estoque</span></a>
+    <a class="{% if path.startswith('/app/finance') %}active{% endif %}" href="/app/finance">↗ <span>Financeiro</span></a>
+    <a class="{% if path.startswith('/app/commissions') %}active{% endif %}" href="/app/commissions">% <span>Comissões</span></a>
+    <a class="{% if path.startswith('/app/memberships') %}active{% endif %}" href="/app/memberships">☆ <span>Clube</span></a>
+    <a class="{% if path.startswith('/app/reports') %}active{% endif %}" href="/app/reports">▥ <span>Relatórios</span></a>
+    <a class="{% if path.startswith('/app/billing') %}active{% endif %}" href="/app/billing">◇ <span>Plano e cobrança</span></a>
+    <a class="{% if path.startswith('/app/settings') %}active{% endif %}" href="/app/settings">⚙ <span>Configurações</span></a>
+    <a class="{% if path.startswith('/app/branding') %}active{% endif %}" href="/app/branding">✦ <span>Minha marca</span></a>
+    <a href="/b/{{tenant.slug}}" target="_blank">↗ <span>Página pública</span></a>
+  </nav>
+  <div class="sidebar-footer"><small>{{user.name}} · {{user.role}}</small><a href="/logout">Sair</a></div>
+</aside>
+<main class="main">
+{% if request.state.subscription_notice is defined and request.state.subscription_notice.message %}<div class="subscription-banner {{request.state.subscription_notice.level}}"><span>{{request.state.subscription_notice.message}}</span><a href="/app/billing">Ver plano e cobrança →</a></div>{% endif %}
+{% endif %}
+{% block content %}{% endblock %}
+{% if user %}</main>{% endif %}
+<script>if('serviceWorker' in navigator) navigator.serviceWorker.register('/service-worker.js');</script>
+{% block scripts %}{% endblock %}
+</body>
+</html>

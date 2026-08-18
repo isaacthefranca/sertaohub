@@ -1,0 +1,5 @@
+V7.15 - Identidade visual SertãoHub
+- Logos oficiais adicionadas à landing central.
+- Logo laranja usada no cabeçalho sobre fundo escuro.
+- Logo branca usada no rodapé.
+- CNPJ 62.109.629/0001-21 incluído no rodapé.

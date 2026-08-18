@@ -1,0 +1,16 @@
+BARBERSAAS V7 — PRODUCTION CANDIDATE
+
+- PostgreSQL com migrations versionadas.
+- Docker de produção instala driver PostgreSQL e cliente pg_dump/psql.
+- Ambiente staging separado.
+- /health para liveness e /ready para banco.
+- Cookies Secure em staging/produção.
+- Trusted Hosts e headers básicos de segurança.
+- Conta demo não é criada em staging/produção.
+- APP_SECRET inseguro bloqueia inicialização em staging/produção.
+- Backup PostgreSQL compactado e upload opcional para S3/R2.
+- Script de restauração protegido por confirmação explícita.
+- GitHub Actions para CI, staging automático e produção com aprovação manual.
+- Exemplos .env separados por ambiente.
+
+IMPORTANTE: esta versão prepara a infraestrutura. Antes de clientes pagantes, ainda deve haver homologação do Asaas e teste completo de restauração/rollback.

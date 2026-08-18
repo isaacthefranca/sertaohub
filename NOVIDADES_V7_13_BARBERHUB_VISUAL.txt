@@ -1,0 +1,13 @@
+BARBER HUB — atualização visual da landing page
+
+Alterado somente o visual/comunicação da landing pública inicial.
+Não foram alterados: banco, agenda, horários, clientes, profissionais, serviços, PDV, caixa, financeiro, comissões, relatórios, assinaturas ou regras de negócio.
+
+Principais mudanças:
+- Marca Barber Hub aplicada na landing.
+- Nova identidade visual preto + dourado inspirada em barbearias premium.
+- Header fixo e responsivo.
+- Hero com fotografia e CTAs.
+- Seções de recursos, fluxo, painel, planos, depoimentos, FAQ e CTA final.
+- Assets locais para reduzir dependência externa.
+- Layout responsivo desktop/tablet/mobile.

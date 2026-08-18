@@ -1,0 +1,22 @@
+BarberSaaS V4 — Landing + Categorias personalizadas
+
+1. Landing comercial redesenhada
+- Cabeçalho fixo com efeito de vidro ao rolar.
+- Navegação: Início, Recursos, Como funciona, Planos e FAQ.
+- Seção ativa destacada automaticamente durante a rolagem.
+- Clique em uma seção também deixa o item selecionado em evidência.
+- Hero mais comercial com prévia visual do dashboard.
+- Seções de recursos, funcionamento, planos, FAQ e CTA final.
+- Menu responsivo para celular.
+
+2. Serviços
+- Categorias: Corte masculino, Corte feminino, Barba, Combo, Tratamento e Outro.
+- Selecionando Outro, aparece o campo "Nome da nova categoria".
+- O nome personalizado é salvo de verdade no banco.
+- A categoria personalizada aparece no catálogo e na página pública de agendamento.
+- Tela de serviços ganhou cards mais organizados.
+
+Para testar:
+python seed.py
+python -m uvicorn main:app --reload
+http://127.0.0.1:8000

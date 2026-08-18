@@ -1,0 +1,8 @@
+{% extends "base.html" %}{% block title %}Relatórios{% endblock %}{% block content %}
+<div class="pagehead"><div><h1>Relatórios</h1><p>Resultados baseados em vendas efetivamente pagas.</p></div></div>
+<div class="grid2">
+<section class="panel"><h2>Por mês</h2>{% if monthly %}<table><tr><th>Mês</th><th>Atendimentos realizados</th><th>Receita recebida</th></tr>{% for r in monthly %}<tr><td>{{r.month}}</td><td>{{r.appointments}}</td><td>{{r.revenue|money}}</td></tr>{% endfor %}</table>{% else %}<div class="empty">Nenhuma venda paga registrada ainda.</div>{% endif %}</section>
+<section class="panel"><h2>Serviços mais vendidos</h2>{% if top_services %}<table><tr><th>Serviço</th><th>Qtd.</th><th>Receita</th></tr>{% for r in top_services %}<tr><td>{{r.name}}</td><td>{{'%g'|format(r.c)}}</td><td>{{r.v|money}}</td></tr>{% endfor %}</table>{% else %}<div class="empty">Nenhum serviço vendido ainda.</div>{% endif %}</section>
+</div>
+<section class="panel"><h2>Performance da equipe</h2>{% if top_pros %}<table><tr><th>Profissional</th><th>Atendimentos cobrados</th><th>Receita</th></tr>{% for r in top_pros %}<tr><td>{{r.name}}</td><td>{{r.c}}</td><td>{{r.v|money}}</td></tr>{% endfor %}</table>{% else %}<div class="empty">Nenhuma venda vinculada a profissional ainda.</div>{% endif %}</section>
+{% endblock %}

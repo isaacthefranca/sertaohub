@@ -1,0 +1,7 @@
+.venv
+__pycache__
+*.pyc
+barbersaas.db
+.env
+.env.local
+*.db

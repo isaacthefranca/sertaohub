@@ -1,0 +1,42 @@
+BarberSaaS V7.10 — Testes completos, correções de segurança e gestão de equipe
+
+TESTES
+- Bateria de 154 testes automatizados end-to-end cobrindo cadastro, login, agendamento
+  (interno e público), PDV, caixa, comissões, produtos/estoque, financeiro, relatórios,
+  planos de assinatura, configurações, billing, webhook do Asaas, painel super admin,
+  bloqueio por trial/assinatura vencida e, principalmente, isolamento total de dados
+  entre barbearias diferentes (multi-tenant). Todos os 154 passam.
+
+CORREÇÕES DE BUGS
+- CRÍTICO: login do super admin (conta demo) redirecionava para /app e quebrava com
+  erro 500, pois o super admin não tem barbearia vinculada. Agora vai direto para /admin,
+  e o próprio painel /app também não quebra mais se acessado sem tenant.
+- Login não verificava se o usuário estava desativado — um acesso desativado ainda
+  conseguia autenticar. Corrigido.
+- Serviços aceitavam preço negativo e duração zero/negativa sem validação. Corrigido.
+
+NOVA FUNCIONALIDADE: GESTÃO DE EQUIPE
+- Nova página "Acessos da equipe" (/app/team): o dono da barbearia agora consegue criar
+  um login individual para cada barbeiro, vinculado ao cadastro de profissional.
+- O barbeiro acessa apenas o portal simplificado (/barber) — agenda do dia e comissões —
+  sem ver financeiro, billing, configurações ou dados de outros profissionais.
+- Dono pode desativar, reativar e redefinir a senha de qualquer acesso da equipe.
+- Um profissional só pode ter um acesso ativo por vez (evita contas duplicadas).
+
+SEGURANÇA
+- Proteção contra força bruta no login: 5 tentativas erradas travam o login por 5 minutos
+  (por e-mail + IP). Observação: como é em memória, reseta se o servidor reiniciar; se for
+  rodar com múltiplos workers/instâncias, considere migrar para um armazenamento
+  compartilhado (Redis) no futuro.
+- Validação de formato de e-mail no cadastro e na criação de acesso de equipe.
+- Barbeiros ficam tecnicamente impedidos de acessar qualquer página administrativa
+  (/app/*), reforçado por middleware central.
+
+VALIDAÇÕES ADICIONADAS
+- Comissão de profissional: só aceita entre 0% e 100%.
+- Produtos: preço, custo, estoque e estoque mínimo não podem ser negativos.
+- Movimentação manual de estoque: quantidade precisa ser maior que zero.
+- Lançamento financeiro e transação de caixa: valor > 0 e descrição obrigatória.
+- PDV: desconto não pode ultrapassar o valor da venda; quantidade não pode ultrapassar
+  o estoque disponível; venda avulsa agora também exige caixa aberto (antes só a
+  cobrança de atendimento exigia isso — inconsistência corrigida).

@@ -1,0 +1,9 @@
+V6 — Polimento visual + edição
+
+- Landing: removido efeito 3D que podia deixar a prévia do painel desfocada.
+- Textos e nomes da prévia ficaram maiores e mais nítidos.
+- Serviços: botões claros "Editar" e "Excluir" substituem o ícone confuso.
+- Serviços: edição real de nome, categoria, preço e duração.
+- Profissionais: botões "Editar" e "Excluir".
+- Profissionais: edição real de nome, WhatsApp, especialidade e comissão.
+- Exclusões continuam lógicas, preservando o histórico anterior.

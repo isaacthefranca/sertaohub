@@ -1,0 +1,29 @@
+BarberSaaS V7.12 — Release Candidate para staging/produção
+
+CORREÇÕES DE PRODUÇÃO
+- APP_BASE_URL usa automaticamente RENDER_EXTERNAL_URL quando executado no Render.
+- RENDER_EXTERNAL_HOSTNAME é aceito automaticamente pelo TrustedHostMiddleware.
+- render.yaml agora define APP_ENV=production, desativa criação de demo e prepara Postgres, Asaas e SMTP.
+- APP_SECRET fraco impede inicialização em staging/produção.
+- Asaas real exige ASAAS_WEBHOOK_TOKEN em produção.
+- Recuperação de senha nunca grava token nos logs em staging/produção quando SMTP não está configurado.
+- Senhas novas exigem no mínimo 8 caracteres (cadastro, recuperação e equipe).
+- Agenda/página pública usa o fuso horário configurado da barbearia nos pontos críticos de data/hora.
+- Checkout Asaas monta URL segura quando a API retornar apenas o ID da sessão.
+- Webhook reconhece checkoutSession em eventos de pagamento, além do checkout.id.
+- Webhook atualiza pedidos cancelados/expirados e mantém idempotência por event_id.
+
+VALIDAÇÃO LOCAL DESTA RELEASE
+- 91 testes automatizados de regressão: 91/91 aprovados.
+- Fluxo completo: agenda -> PDV -> caixa -> comissão -> financeiro -> relatórios.
+- Isolamento entre tenants validado.
+- Recuperação de senha e token de uso único validados.
+- Segurança de senha, bloqueio por assinatura e papéis owner/barber validados.
+- Estoque/PDV, clube, configurações, webhook idempotente e billing fallback validados.
+- Inicialização em modo production, HSTS, docs desabilitada e guards de secret/webhook validados.
+
+AINDA EXIGE HOMOLOGAÇÃO EXTERNA ANTES DE COBRANÇA REAL
+- Asaas Sandbox com uma conta/chave real.
+- PostgreSQL hospedado real da infraestrutura final.
+- SMTP real do domínio.
+- Domínio final/DNS/HTTPS.

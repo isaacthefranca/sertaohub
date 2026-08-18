@@ -1,0 +1,19 @@
+name: CI
+on:
+  push:
+  pull_request:
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: pip install -r requirements.txt
+      - run: python -m py_compile main.py db_compat.py storage.py seed.py migrate.py backup_postgres.py restore_postgres.py
+      - run: |
+          python - <<'PY'
+          import main
+          print('Import OK; PostgreSQL?', main.USE_POSTGRES)
+          PY

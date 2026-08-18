@@ -1,0 +1,10 @@
+BarberSaaS V7.1 — correção de disponibilidade
+
+- Grade de horários de início agora é fixa em 30 minutos.
+- A duração real de cada serviço continua sendo respeitada integralmente.
+- Um horário só aparece se [início,fim) inteiro estiver livre.
+- Mantida a segunda validação no backend antes de gravar o agendamento.
+- Mensagem específica quando o horário ficou indisponível antes da confirmação.
+
+Regra de conflito: novo_inicio < existente_fim E novo_fim > existente_inicio.
+Horários encostados (ex.: um termina 11:00 e outro começa 11:00) são permitidos.

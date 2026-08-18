@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block title %}Serviços{% endblock %}
+{% block content %}
+<div class="page-head"><div><span class="muted">Catálogo</span><h1>Serviços</h1></div></div>
+{% if request.query_params.get('deleted') %}<div class="success-note">Serviço removido do catálogo. O histórico anterior foi preservado.</div>{% endif %}
+{% if request.query_params.get('edited') %}<div class="success-note">Serviço atualizado com sucesso.</div>{% endif %}
+<div class="grid2 services-layout">
+  <form class="panel form service-create" method="post" id="serviceForm">
+    <div class="panel-title-row"><div><h2>Novo serviço</h2><p>Cadastre o serviço exatamente como o cliente verá no agendamento.</p></div><span class="step-pill">Catálogo</span></div>
+    <label>Nome do serviço<input name="name" required placeholder="Ex.: Degradê, Social, Corte feminino"></label>
+    <label>Categoria
+      <select name="category" id="serviceCategory">
+        <option value="Corte masculino">Corte masculino</option><option value="Corte feminino">Corte feminino</option><option value="Barba">Barba</option><option value="Combo">Combo</option><option value="Tratamento">Tratamento</option><option value="Outro">Outro</option>
+      </select>
+    </label>
+    <label id="customCategoryWrap" class="custom-category" hidden>Nome da nova categoria
+      <input name="custom_category" id="customCategory" placeholder="Ex.: Química, Infantil, Sobrancelha"><small>Esse nome aparecerá no catálogo e na página de agendamento no lugar de “Outro”.</small>
+    </label>
+    <div class="row"><label>Preço<input type="number" step="0.01" min="0" name="price" required placeholder="0,00"></label><label>Duração (min)<input type="number" name="duration" value="30" min="10" required></label></div>
+    <button class="btn">Adicionar serviço</button>
+  </form>
+
+  <section class="panel service-list-panel"><div class="panel-title-row"><div><h2>Serviços cadastrados</h2><p>{{rows|length}} item(ns) no catálogo.</p></div></div>
+    {% if rows %}<div class="service-catalog-list">{% for r in rows %}
+      <article class="service-catalog-item">
+        <div class="service-cat-icon">✂</div>
+        <div class="grow"><span class="service-category-pill">{{r.category or 'Serviço'}}</span><h3>{{r.name}}</h3><small>{{r.duration}} min de duração</small></div>
+        <div class="service-price"><small>A partir de</small><strong>R$ {{'%.2f'|format(r.price)}}</strong></div>
+        <div class="item-actions">
+          <button class="action-btn edit" type="button" onclick="toggleEdit('service-edit-{{r.id}}')" title="Editar {{r.name}}">Editar</button>
+          <form method="post" action="/app/services/{{r.id}}/delete" onsubmit="return confirm('Excluir o serviço {{r.name}}? O histórico de atendimentos será preservado.')"><button class="action-btn delete" type="submit">Excluir</button></form>
+        </div>
+      </article>
+      <form id="service-edit-{{r.id}}" class="panel form inline-edit" method="post" action="/app/services/{{r.id}}/edit" hidden>
+        <div class="inline-edit-head"><div><b>Editar serviço</b><small>Altere os dados e salve.</small></div><button type="button" class="close-edit" onclick="toggleEdit('service-edit-{{r.id}}')">×</button></div>
+        <label>Nome<input name="name" value="{{r.name}}" required></label>
+        <label>Categoria<input name="category" value="{{r.category or 'Serviço'}}" required></label>
+        <input type="hidden" name="custom_category" value="">
+        <div class="row"><label>Preço<input type="number" step="0.01" min="0" name="price" value="{{r.price}}" required></label><label>Duração (min)<input type="number" min="10" name="duration" value="{{r.duration}}" required></label></div>
+        <div class="edit-actions"><button class="btn" type="submit">Salvar alterações</button><button class="btn ghost" type="button" onclick="toggleEdit('service-edit-{{r.id}}')">Cancelar</button></div>
+      </form>
+    {% endfor %}</div>{% else %}<div class="empty">Nenhum serviço cadastrado.</div>{% endif %}
+  </section>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(() => { const select=document.getElementById('serviceCategory'),wrap=document.getElementById('customCategoryWrap'),input=document.getElementById('customCategory'); function sync(){const other=select.value==='Outro';wrap.hidden=!other;input.required=other;if(!other) input.value='';} select.addEventListener('change',sync); sync(); })();
+function toggleEdit(id){ const el=document.getElementById(id); el.hidden=!el.hidden; if(!el.hidden) el.scrollIntoView({behavior:'smooth',block:'nearest'}); }
+</script>
+{% endblock %}

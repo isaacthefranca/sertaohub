@@ -1,0 +1,9 @@
+V7.14 — SERTÃOHUB LANDING CENTRAL
+
+- Nova landing principal da marca SertãoHub na rota /
+- BarberHub preservado na rota /barberhub
+- Botões do BarberHub na landing central levam para /barberhub
+- Preços atuais do BarberHub mantidos: Starter R$49,90, Pro R$89,90, Premium R$149,90
+- Outros segmentos (clínicas, nutricionistas, salões/estética, pet shops e fitness) aparecem como EM BREVE, sem preço inventado e sem promessa de data
+- Dashboard, agenda, PDV, caixa, financeiro, comissões e demais módulos internos não foram alterados
+- CSS central responsivo para desktop/tablet/celular

@@ -1,0 +1,7 @@
+BarberSaaS V7.4
+- Corrigido botão de status parcialmente cortado em atendimentos curtos.
+- Botão compacto de status sempre visível no card.
+- Modal de alteração de status totalmente redesenhado.
+- Opções de status agora aparecem em cards visuais com descrição.
+- Cache do PWA atualizado para evitar CSS antigo após atualizações.
+- CSS versionado (?v=74) para forçar atualização no navegador.

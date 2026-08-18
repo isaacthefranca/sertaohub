@@ -1,0 +1,7 @@
+BarberSaaS V7.3
+
+- Botão Alterar sempre visível em atendimentos curtos e longos.
+- Janela modal independente do tamanho do card para mudança de status.
+- Status: Confirmado, Chegou, Atendendo, Concluído, Não veio e Cancelado.
+- Após salvar, a Agenda permanece na mesma data e visualização.
+- Mantidas as correções de disponibilidade da V7.1.

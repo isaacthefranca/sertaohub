@@ -1,0 +1,56 @@
+{% extends "base.html" %}{% block title %}PDV / Vendas{% endblock %}{% block content %}
+<div class="page-head"><div><span class="muted">Operação</span><h1>PDV / Vendas</h1><p class="page-sub">Receba atendimentos concluídos, registre vendas extras e acompanhe pagamentos.</p></div><span class="soft-badge">{{today_count}} vendas hoje</span></div>
+
+{% if request.query_params.get('success') %}<div class="success-strip">✓ {% if request.query_params.get('success')=='appointment' %}Atendimento cobrado e registrado com sucesso.{% else %}Venda registrada com sucesso.{% endif %}</div>{% endif %}
+{% if request.query_params.get('error')=='cash_closed' %}<div class="warning-strip"><b>Caixa fechado.</b> Abra o caixa antes de cobrar um atendimento. <a href="/app/cash">Abrir caixa →</a></div>{% endif %}
+{% if request.query_params.get('error')=='already_paid' %}<div class="warning-strip">Este atendimento já foi cobrado. A cobrança duplicada foi bloqueada.</div>{% endif %}
+{% if request.query_params.get('error')=='not_completed' %}<div class="warning-strip">Somente atendimentos concluídos podem ser cobrados.</div>{% endif %}
+
+<div class="pdv-stats"><div class="mini-stat"><span>Vendas de hoje</span><strong>{{today_count}}</strong></div><div class="mini-stat"><span>Faturamento de hoje</span><strong>{{today_total|money}}</strong></div><div class="mini-stat"><span>Aguardando pagamento</span><strong>{{pending|length}}</strong></div></div>
+
+<section class="panel pending-payments">
+  <div class="panel-title-row"><div><h2>Atendimentos aguardando pagamento</h2><p>Ao marcar um atendimento como <b>Concluído</b> na Agenda, ele aparece automaticamente aqui.</p></div>{% if cash_open %}<span class="cash-open">● Caixa aberto</span>{% else %}<a class="btn ghost small" href="/app/cash">Abrir caixa</a>{% endif %}</div>
+  {% if pending %}
+  <div class="pending-grid">
+    {% for a in pending %}
+    <article class="payment-card">
+      <div class="payment-card-head"><div><small>{{a.starts_at[8:10]}}/{{a.starts_at[5:7]}} às {{a.starts_at[11:16]}}</small><h3>{{a.customer}}</h3></div><span class="payment-status">Aguardando</span></div>
+      <div class="payment-details"><div><span>Serviço</span><b>{{a.service}}</b></div><div><span>Profissional</span><b>{{a.professional}}</b></div><div><span>Duração</span><b>{{a.duration}} min</b></div><div><span>Valor</span><b>{{(a.total or a.price)|money}}</b></div></div>
+      <form method="post" action="/app/pdv/appointment/{{a.id}}/sale" class="payment-form">
+        <label>Pagamento<select name="payment_method"><option>PIX</option><option>Cartão de crédito</option><option>Cartão de débito</option><option>Dinheiro</option></select></label>
+        <label>Desconto (R$)<input name="discount" type="number" min="0" step="0.01" value="0"></label>
+        <button class="btn full" {% if not cash_open %}disabled title="Abra o caixa primeiro"{% endif %}>Cobrar atendimento</button>
+      </form>
+    </article>
+    {% endfor %}
+  </div>
+  {% else %}<div class="empty big-empty"><b>Nenhum atendimento aguardando pagamento.</b><span>Conclua um atendimento na Agenda para ele aparecer aqui automaticamente.</span></div>{% endif %}
+</section>
+
+<div class="pdv-layout">
+  <section class="panel pdv-sale-card">
+    <div class="panel-title-row"><div><h2>Venda avulsa</h2><p>Use para produtos, serviços extras ou clientes sem agendamento.</p></div><span class="step-pill">PDV</span></div>
+    <form method="post" action="/app/pdv/sale" class="pdv-form" id="pdv-form">
+      <div class="field-group"><label>Tipo de item</label><div class="segment"><label><input type="radio" name="item_type" value="service" checked><span>✂ Serviço</span></label><label><input type="radio" name="item_type" value="product"><span>□ Produto</span></label></div></div>
+      <label>Item<select name="item_id" id="itemid" required>{% for s in services %}<option value="{{s.id}}" data-type="service" data-price="{{s.price}}">{{s.name}} · {{s.duration}} min · {{s.price|money}}</option>{% endfor %}{% for p in products %}<option value="{{p.id}}" data-type="product" data-price="{{p.price}}">{{p.name}} · estoque {{p.stock}} · {{p.price|money}}</option>{% endfor %}</select></label>
+      <div class="pdv-two"><label>Quantidade<input name="qty" id="qty" type="number" step="1" min="1" value="1"></label><label>Desconto (R$)<input name="discount" id="discount" type="number" step="0.01" min="0" value="0"></label></div>
+      <div class="pdv-two"><label>Cliente<select name="customer_id"><option value="0">Consumidor não identificado</option>{% for c in customers %}<option value="{{c.id}}">{{c.name}}</option>{% endfor %}</select></label><label>Profissional<select name="professional_id"><option value="0">Sem profissional</option>{% for p in pros %}<option value="{{p.id}}">{{p.name}}</option>{% endfor %}</select></label></div>
+      <label>Forma de pagamento<select name="payment_method"><option>PIX</option><option>Cartão de crédito</option><option>Cartão de débito</option><option>Dinheiro</option></select></label>
+      <div class="pdv-total"><span>Total estimado</span><strong id="pdv-total">R$ 0,00</strong></div>
+      <button class="btn full big">Finalizar venda</button>
+    </form>
+  </section>
+  <section class="panel pdv-history">
+    <div class="panel-title-row"><div><h2>Últimas vendas</h2><p>Movimentações mais recentes.</p></div></div>
+    {% if sales %}<div class="sale-list">{% for s in sales %}<article><div class="sale-icon">✓</div><div class="grow"><b>Venda #{{s.id}}</b><small>{{s.created_at[8:10]}}/{{s.created_at[5:7]}} · {{s.created_at[11:16]}} · {{s.payment_method}}</small></div><strong>{{s.total|money}}</strong></article>{% endfor %}</div>{% else %}<div class="empty">Nenhuma venda registrada ainda.</div>{% endif %}
+  </section>
+</div>
+<script>
+const item=document.getElementById('itemid'), qty=document.getElementById('qty'), disc=document.getElementById('discount'), total=document.getElementById('pdv-total');
+function money(v){return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'})}
+function type(){return document.querySelector('input[name=item_type]:checked').value}
+function filterItems(){[...item.options].forEach(o=>o.hidden=o.dataset.type!==type()); const x=[...item.options].find(o=>!o.hidden); if(x)item.value=x.value;calc()}
+function calc(){const o=item.selectedOptions[0];const price=o?Number(o.dataset.price||0):0;total.textContent=money(Math.max(0,price*Number(qty.value||1)-Number(disc.value||0)))}
+document.querySelectorAll('input[name=item_type]').forEach(r=>r.addEventListener('change',filterItems));[item,qty,disc].forEach(x=>x.addEventListener('input',calc));filterItems();
+</script>
+{% endblock %}

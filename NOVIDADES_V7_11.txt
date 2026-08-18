@@ -1,0 +1,37 @@
+BarberSaaS V7.11 — Recuperação de senha por e-mail e correção de bugs críticos no Postgres
+
+NOVA FUNCIONALIDADE: RECUPERAÇÃO DE SENHA POR E-MAIL
+- Tela "Esqueci minha senha" (/forgot-password) → e-mail com link de redefinição →
+  criar nova senha (/reset-password).
+- Funciona com qualquer provedor SMTP: Gmail/Workspace, Resend (smtp.resend.com),
+  SendGrid (smtp.sendgrid.net), Mailgun, Amazon SES, etc. Configure em SMTP_HOST,
+  SMTP_PORT, SMTP_USER, SMTP_PASSWORD, SMTP_FROM, SMTP_USE_TLS no .env.
+- Sem SMTP configurado (ambiente local), o link aparece no log do servidor em vez de
+  falhar — dá pra testar sem precisar de conta de e-mail.
+- Link expira em 1 hora, é de uso único, e a resposta é sempre a mesma genérica
+  (exista ou não o e-mail) para não revelar quais e-mails têm conta no sistema.
+- Um novo pedido de redefinição invalida automaticamente qualquer link anterior
+  ainda não usado.
+- Rate limit: 5 pedidos por e-mail+IP travam por 5 minutos.
+
+BUGS CRÍTICOS CORRIGIDOS (só apareciam rodando com PostgreSQL, não em SQLite)
+- CRÍTICO — Criar qualquer agendamento quebrava com erro 500 em produção (Postgres).
+  A camada de compatibilidade convertia os placeholders da query sem escapar o caractere
+  "%" já usado em filtros como "status NOT LIKE 'cancelled%'", e o driver do Postgres
+  rejeitava a query inteira. Corrigido na origem (db_compat.py), então qualquer query
+  parecida no futuro também fica protegida automaticamente.
+- CRÍTICO — A página de Relatórios quebrava com erro 500 em produção (Postgres).
+  A query usava "month" como apelido de coluna sem a palavra AS; no SQLite isso é aceito,
+  mas no Postgres "month" é uma palavra reservada e a query inteira falhava. Corrigido.
+- Essas duas rotas (agendamento e relatórios) são dois dos recursos mais usados do
+  sistema — em SQLite (ambiente de teste local) tudo funcionava normalmente, mas
+  quebraria assim que o cliente final começasse a usar de verdade em produção com
+  PostgreSQL. Só foram encontrados rodando a suíte de testes contra um Postgres real.
+
+VALIDAÇÃO REALIZADA
+- Suíte de 48 testes de regressão (cadastros, agendamento interno e público, PDV,
+  caixa, comissões, produtos/estoque, financeiro, relatórios, isolamento entre
+  tenants, gestão de equipe, super admin) rodada com sucesso tanto em SQLite quanto
+  em um PostgreSQL 16 real (não simulado) — 48/48 em ambos.
+- Suíte de 24 testes cobrindo especificamente o fluxo de recuperação de senha,
+  incluindo envio real via SMTP validado ponta a ponta contra um servidor de teste.

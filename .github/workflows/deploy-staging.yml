@@ -1,0 +1,14 @@
+name: Deploy staging
+on:
+  push:
+    branches: [develop]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Trigger staging deploy
+        env:
+          HOOK: ${{ secrets.STAGING_DEPLOY_HOOK_URL }}
+        run: |
+          test -n "$HOOK" || (echo "Configure STAGING_DEPLOY_HOOK_URL" && exit 1)
+          curl -fsS -X POST "$HOOK"

@@ -1,0 +1,10 @@
+BarberSaaS V7.5 — Agenda integrada ao PDV
+
+- Atendimento marcado como Concluído aparece automaticamente em "Atendimentos aguardando pagamento" no PDV.
+- Cliente, serviço, profissional, duração e valor vêm preenchidos do agendamento.
+- Operador escolhe apenas forma de pagamento e desconto.
+- Cobrança exige caixa aberto para manter o fluxo PDV -> Caixa consistente.
+- Ao cobrar: cria venda, item da venda, entrada no caixa e comissão do profissional.
+- Financeiro passa a considerar vendas pagas mesmo após o fechamento do caixa, sem duplicar a entrada do caixa.
+- Proteção contra cobrança duplicada por atendimento (backend + índice único no banco).
+- Venda avulsa continua disponível para produtos e serviços extras.

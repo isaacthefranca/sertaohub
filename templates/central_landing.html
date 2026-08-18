@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block title %}SertãoHub — Sistemas para negócios que querem crescer{% endblock %}
+{% block content %}
+<div class="sh-page">
+  <header class="sh-header" id="shHeader">
+    <div class="sh-shell sh-nav-wrap">
+      <a class="sh-brand" href="#inicio" aria-label="SertãoHub - início">
+        <img class="sh-brand-logo" src="/static/sertaohub-logo-white.png" alt="Sertão Hub">
+      </a>
+      <nav class="sh-nav" id="shNav" aria-label="Navegação principal">
+        <a class="active" href="#inicio">Início</a>
+        <a href="#produtos">Soluções</a>
+        <a href="#vantagens">Por que usar</a>
+        <a href="#barberhub">BarberHub</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="sh-actions">
+        <a class="sh-link" href="/login">Entrar</a>
+        <a class="sh-btn sh-btn-primary sh-btn-sm" href="#produtos">Ver sistemas <span>→</span></a>
+      </div>
+      <button class="sh-menu" id="shMenu" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="sh-hero sh-anchor" id="inicio">
+      <div class="sh-glow sh-glow-a"></div><div class="sh-glow sh-glow-b"></div>
+      <div class="sh-shell sh-hero-grid">
+        <div class="sh-hero-copy">
+          <div class="sh-kicker"><span></span> TECNOLOGIA PARA NEGÓCIOS REAIS</div>
+          <h1>Um sistema para cada negócio.<br><strong>Uma plataforma para crescer.</strong></h1>
+          <p>A SertãoHub cria soluções simples e profissionais para organizar agenda, clientes, equipe, vendas e financeiro — feitas para a rotina de cada segmento.</p>
+          <div class="sh-hero-actions">
+            <a class="sh-btn sh-btn-primary" href="#produtos">Conhecer as soluções <span>→</span></a>
+            <a class="sh-btn sh-btn-ghost" href="#como-funciona">Como funciona</a>
+          </div>
+          <div class="sh-hero-proof"><span>✓ Acesso pelo navegador</span><span>✓ Página própria</span><span>✓ Suporte para crescer</span></div>
+        </div>
+        <div class="sh-hero-visual" aria-label="Prévia dos sistemas SertãoHub">
+          <div class="sh-browser">
+            <div class="sh-browser-top"><i></i><i></i><i></i><span>sertaohub.com.br</span></div>
+            <div class="sh-browser-body">
+              <aside><b>S</b><i></i><i class="on"></i><i></i><i></i><i></i></aside>
+              <div class="sh-ui">
+                <div class="sh-ui-head"><div><small>Visão geral</small><strong>Seu negócio em um só lugar</strong></div><button>+ Novo</button></div>
+                <div class="sh-ui-metrics"><article><small>Receita</small><b>R$ 8.420</b><em>+12,4%</em></article><article><small>Agendamentos</small><b>48</b><em>esta semana</em></article><article><small>Clientes</small><b>326</b><em>ativos</em></article></div>
+                <div class="sh-ui-row"><div><b>Agenda de hoje</b><p><span>09:00</span><strong>Atendimento</strong><small>Confirmado</small></p><p><span>10:30</span><strong>Atendimento</strong><small>Confirmado</small></p></div><div class="sh-ui-chart"><b>Desempenho</b><span></span><span></span><span></span><span></span><span></span></div></div>
+              </div>
+            </div>
+          </div>
+          <div class="sh-float sh-float-a"><span>✓</span><div><b>Operação organizada</b><small>Agenda, clientes e financeiro</small></div></div>
+          <div class="sh-float sh-float-b"><small>PRIMEIRO PRODUTO</small><b>BarberHub</b><span>já disponível</span></div>
+        </div>
+      </div>
+      <div class="sh-ticker"><div>AGENDA ONLINE ◆ GESTÃO DE CLIENTES ◆ EQUIPE ◆ PDV ◆ CAIXA ◆ FINANCEIRO ◆ COMISSÕES ◆ RELATÓRIOS ◆ AGENDA ONLINE ◆ GESTÃO DE CLIENTES ◆ EQUIPE ◆ PDV ◆ CAIXA ◆ FINANCEIRO ◆ COMISSÕES ◆ RELATÓRIOS ◆</div></div>
+    </section>
+
+    <section class="sh-section sh-products sh-anchor" id="produtos">
+      <div class="sh-shell">
+        <div class="sh-section-head centered">
+          <span class="sh-eyebrow">SOLUÇÕES POR SEGMENTO</span>
+          <h2>Não é um sistema genérico.<br><strong>É feito para a rotina de cada negócio.</strong></h2>
+          <p>Começamos pelo BarberHub. Os próximos produtos seguirão a mesma ideia: menos improviso, mais controle e uma experiência melhor para o cliente.</p>
+        </div>
+        <div class="sh-product-grid">
+          <article class="sh-product featured" id="barberhub">
+            <div class="sh-product-top"><span class="sh-product-icon">✂</span><span class="sh-status live">DISPONÍVEL</span></div>
+            <small>BARBEARIAS</small><h3>BarberHub</h3>
+            <p>Agenda online, profissionais, serviços, PDV, caixa, estoque, financeiro, comissões e página pública personalizada.</p>
+            <div class="sh-price"><span>a partir de</span><b>R$ 49,90</b><small>/mês</small></div>
+            <ul><li>7 dias grátis</li><li>Sem cartão no teste</li><li>Planos até 50 profissionais</li></ul>
+            <a class="sh-btn sh-btn-primary full" href="/barberhub">Quero conhecer o BarberHub <span>→</span></a>
+          </article>
+          <article class="sh-product"><div class="sh-product-top"><span class="sh-product-icon">＋</span><span class="sh-status">EM BREVE</span></div><small>CLÍNICAS & CONSULTÓRIOS</small><h3>Gestão para clínicas</h3><p>Agenda, pacientes, profissionais, serviços e financeiro em uma experiência feita para atendimento clínico.</p><div class="sh-coming">Em desenvolvimento</div><button class="sh-btn sh-btn-disabled full" disabled>Em breve</button></article>
+          <article class="sh-product"><div class="sh-product-top"><span class="sh-product-icon">◒</span><span class="sh-status">EM BREVE</span></div><small>NUTRICIONISTAS</small><h3>Gestão para nutrição</h3><p>Agenda, clientes, acompanhamento, planos de atendimento e organização financeira para nutricionistas.</p><div class="sh-coming">Em desenvolvimento</div><button class="sh-btn sh-btn-disabled full" disabled>Em breve</button></article>
+          <article class="sh-product"><div class="sh-product-top"><span class="sh-product-icon">✦</span><span class="sh-status">EM BREVE</span></div><small>SALÕES & ESTÉTICA</small><h3>Gestão para beleza</h3><p>Agenda por profissional, serviços, comissões, caixa e relacionamento com clientes.</p><div class="sh-coming">Em desenvolvimento</div><button class="sh-btn sh-btn-disabled full" disabled>Em breve</button></article>
+          <article class="sh-product"><div class="sh-product-top"><span class="sh-product-icon">●</span><span class="sh-status">EM BREVE</span></div><small>PET SHOPS</small><h3>Gestão para pets</h3><p>Agendamentos, serviços, cadastro de pets, produtos e controle financeiro em um só lugar.</p><div class="sh-coming">Em desenvolvimento</div><button class="sh-btn sh-btn-disabled full" disabled>Em breve</button></article>
+          <article class="sh-product"><div class="sh-product-top"><span class="sh-product-icon">⌁</span><span class="sh-status">EM BREVE</span></div><small>PERSONAL & STUDIOS</small><h3>Gestão fitness</h3><p>Clientes, agenda, planos, recorrência e gestão operacional para profissionais e pequenos studios.</p><div class="sh-coming">Em desenvolvimento</div><button class="sh-btn sh-btn-disabled full" disabled>Em breve</button></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sh-section sh-dark sh-anchor" id="vantagens">
+      <div class="sh-shell">
+        <div class="sh-section-head"><span class="sh-eyebrow">O QUE MUDA NA PRÁTICA</span><h2>Menos ferramenta espalhada.<br><strong>Mais negócio sob controle.</strong></h2></div>
+        <div class="sh-benefit-grid">
+          <article><span>01</span><h3>Seu cliente encontra facilidade</h3><p>Agendamento e páginas públicas simples, rápidas e pensadas para celular.</p></article>
+          <article><span>02</span><h3>Sua equipe trabalha organizada</h3><p>Horários, serviços, profissionais e fluxo diário ficam visíveis em um único lugar.</p></article>
+          <article><span>03</span><h3>Seu dinheiro deixa rastro</h3><p>Vendas, caixa, despesas, comissões e relatórios conectados ao que aconteceu.</p></article>
+          <article><span>04</span><h3>Sua marca aparece</h3><p>O negócio mantém identidade própria para atender o cliente com mais profissionalismo.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="sh-section sh-how sh-anchor" id="como-funciona">
+      <div class="sh-shell sh-how-grid">
+        <div class="sh-section-head"><span class="sh-eyebrow">COMECE SEM COMPLICAÇÃO</span><h2>Da escolha do sistema<br><strong>ao primeiro atendimento.</strong></h2><p>Você escolhe a solução do seu segmento, cria sua conta, personaliza e começa a operar.</p><a class="sh-btn sh-btn-primary" href="/barberhub">Ver o BarberHub funcionando <span>→</span></a></div>
+        <div class="sh-steps"><article><b>1</b><div><h3>Escolha sua solução</h3><p>Entre no produto feito para o seu segmento.</p></div></article><article><b>2</b><div><h3>Crie e personalize</h3><p>Cadastre negócio, serviços, equipe, horários e identidade.</p></div></article><article><b>3</b><div><h3>Compartilhe com clientes</h3><p>Use sua página pública para receber agendamentos.</p></div></article><article><b>4</b><div><h3>Acompanhe tudo</h3><p>Controle operação e financeiro no mesmo ambiente.</p></div></article></div>
+      </div>
+    </section>
+
+    <section class="sh-barber-section">
+      <div class="sh-shell sh-barber-grid">
+        <div class="sh-barber-copy"><span class="sh-eyebrow">BARBERHUB JÁ ESTÁ NO AR</span><h2>Seu primeiro sistema SertãoHub<br><strong>feito para barbearias.</strong></h2><p>Três planos para acompanhar desde uma operação enxuta até equipes maiores.</p><div class="sh-plan-pills"><span>Starter <b>R$ 49,90</b></span><span>Pro <b>R$ 89,90</b></span><span>Premium <b>R$ 149,90</b></span></div><a class="sh-btn sh-btn-dark" href="/barberhub">Abrir página do BarberHub <span>→</span></a></div>
+        <div class="sh-barber-preview"><div class="sh-bh-title">BARBER <em>hub</em></div><img src="/static/barber-hero.jpg" alt="Barbearia"><div class="sh-bh-card"><small>AGENDA ONLINE</small><b>Menos tempo organizando.<br>Mais tempo atendendo.</b></div></div>
+      </div>
+    </section>
+
+    <section class="sh-section sh-faq sh-anchor" id="faq"><div class="sh-shell sh-faq-grid"><div class="sh-section-head"><span class="sh-eyebrow">DÚVIDAS FREQUENTES</span><h2>Antes de escolher<br><strong>seu sistema.</strong></h2></div><div class="sh-faq-list">
+      <details open><summary>O que é a SertãoHub?<span>+</span></summary><p>É a marca central que reúne sistemas de gestão especializados em diferentes tipos de negócio.</p></details>
+      <details><summary>Todos os sistemas já estão disponíveis?<span>+</span></summary><p>Não. O BarberHub é o primeiro produto disponível. Os demais segmentos estão apresentados como próximos lançamentos, sem promessa de data.</p></details>
+      <details><summary>Quanto custa o BarberHub?<span>+</span></summary><p>Os planos atuais são Starter por R$ 49,90/mês, Pro por R$ 89,90/mês e Premium por R$ 149,90/mês, com 7 dias grátis para testar.</p></details>
+      <details><summary>Ao clicar no BarberHub eu vou para outra página?<span>+</span></summary><p>Sim. Você entra na página exclusiva do BarberHub, com recursos, funcionamento, planos e acesso ao cadastro.</p></details>
+    </div></div></section>
+
+    <section class="sh-final"><div class="sh-shell"><span class="sh-eyebrow">SERTÃOHUB</span><h2>Seu negócio não precisa de mais complicação.<br><strong>Precisa do sistema certo.</strong></h2><p>Conheça o BarberHub, nosso primeiro produto disponível.</p><a class="sh-btn sh-btn-primary" href="/barberhub">Conhecer o BarberHub <span>→</span></a></div></section>
+  </main>
+
+  <footer class="sh-footer"><div class="sh-shell"><a class="sh-brand" href="#inicio"><img class="sh-brand-logo sh-brand-logo-footer" src="/static/sertaohub-logo-white.png" alt="Sertão Hub"></a><p>Tecnologia para negócios que querem crescer.</p><div><a href="#produtos">Soluções</a><a href="/login">Entrar</a><a href="#faq">FAQ</a></div></div><small class="sh-copy">© 2026 SertãoHub. Todos os direitos reservados. &nbsp;•&nbsp; CNPJ 62.109.629/0001-21</small></footer>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(()=>{const h=document.getElementById('shHeader'),n=document.getElementById('shNav'),m=document.getElementById('shMenu'),links=[...document.querySelectorAll('.sh-nav a')],secs=[...document.querySelectorAll('.sh-anchor')];const scroll=()=>h?.classList.toggle('scrolled',window.scrollY>12);scroll();addEventListener('scroll',scroll,{passive:true});m?.addEventListener('click',()=>{const o=n.classList.toggle('open');m.textContent=o?'×':'☰';m.setAttribute('aria-expanded',o?'true':'false')});links.forEach(a=>a.addEventListener('click',()=>{n.classList.remove('open');if(m){m.textContent='☰';m.setAttribute('aria-expanded','false')}}));const io=new IntersectionObserver(es=>{const v=es.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!v)return;links.forEach(a=>a.classList.toggle('active',a.getAttribute('href')==='#'+v.target.id))},{rootMargin:'-25% 0px -58% 0px',threshold:[0,.15,.45]});secs.forEach(s=>io.observe(s));document.querySelectorAll('.sh-faq-list details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)document.querySelectorAll('.sh-faq-list details').forEach(o=>{if(o!==d)o.open=false})}))})();
+</script>
+{% endblock %}

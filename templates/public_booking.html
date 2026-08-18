@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Agendar · {{tenant.name}}</title>
+<style>:root{--brand:{{tenant.primary_color}};--surface:{{tenant.secondary_color}}}</style>
+<link rel="stylesheet" href="/static/css/app.css?v=74">
+</head>
+<body class="public public-v2">
+<div class="shop-hero" {% if tenant.cover_url %}style="background-image:linear-gradient(90deg,rgba(10,15,24,.88),rgba(10,15,24,.48)),url('{{tenant.cover_url}}')"{% endif %}>
+  <div class="public-wide shop-hero-inner">
+    <div class="shop-identity">
+      {% if tenant.logo_url %}<img src="{{tenant.logo_url}}" class="shop-logo-img">{% else %}<div class="shop-logo big">{{tenant.name[0]}}</div>{% endif %}
+      <div><span class="eyebrow">Agendamento online</span><h1>{{tenant.name}}</h1><p>{{tenant.tagline or tenant.description or 'Seu horário, do seu jeito.'}}</p></div>
+    </div>
+    <div class="shop-actions">
+      {% if tenant.instagram %}<a class="public-chip" href="https://instagram.com/{{tenant.instagram.replace('@','')}}" target="_blank">Instagram</a>{% endif %}
+      {% if tenant.address %}<a class="public-chip" href="https://www.google.com/maps/search/?api=1&query={{tenant.address|urlencode}}" target="_blank">Como chegar</a>{% endif %}
+    </div>
+  </div>
+</div>
+
+<main class="public-wide booking-layout">
+  <section>
+    {% if request.query_params.get('cancelled') %}<div class="success compact"><h2>Agendamento cancelado</h2><p>O horário foi liberado novamente.</p></div>{% endif %}
+    {% if request.query_params.get('error') == 'conflict' %}<div class="alert">Esse horário acabou de ficar indisponível. Escolha outro horário.</div>{% elif request.query_params.get('error') %}<div class="alert">Não foi possível reservar esse horário. Atualize as opções e tente novamente.</div>{% endif %}
+
+    {% if appointment %}
+    <div class="confirmation-card" id="confirmacao">
+      <div class="confirm-icon">✓</div>
+      <span class="eyebrow brandtext">Agendamento confirmado</span>
+      <h2>Pronto, {{appointment.customer}}!</h2>
+      <p>Seu horário está reservado. Você pode enviar uma confirmação ao barbeiro pelo WhatsApp, se desejar.</p>
+      <div class="confirm-summary">
+        <div><small>Serviço</small><strong>{{appointment.service}}</strong></div>
+        <div><small>Profissional</small><strong>{{appointment.professional}}</strong></div>
+        <div><small>Data</small><strong>{{appointment.starts_at[8:10]}}/{{appointment.starts_at[5:7]}}/{{appointment.starts_at[0:4]}}</strong></div>
+        <div><small>Horário</small><strong>{{appointment.starts_at[11:16]}}</strong></div>
+      </div>
+      {% if whatsapp_url %}<a class="whatsapp-confirm" href="{{whatsapp_url}}" target="_blank" rel="noopener">Enviar confirmação pelo WhatsApp</a>{% else %}<div class="notice-soft">O profissional ainda não possui WhatsApp cadastrado.</div>{% endif %}
+      <div class="confirm-actions">
+        <a class="btn ghost" href="/b/{{tenant.slug}}/calendar/{{appointment.public_token}}.ics">Adicionar ao calendário</a>
+        <a class="btn ghost" href="/b/{{tenant.slug}}#agendar">Agendar outro horário</a>
+        <form method="post" action="/b/{{tenant.slug}}/cancel/{{appointment.public_token}}" onsubmit="return confirm('Deseja realmente cancelar este horário?')"><button class="link-danger" type="submit">Cancelar agendamento</button></form>
+      </div>
+    </div>
+    {% endif %}
+
+    <form class="booking-card booking-v2" method="post" action="/b/{{tenant.slug}}/book" id="booking">
+      <div class="booking-title" id="agendar"><div><span class="eyebrow brandtext">Reserve em poucos passos</span><h2>Agende seu horário</h2></div><div class="secure-note">Sem cadastro • confirmação imediata</div></div>
+      <div class="progress"><span class="active"></span><span></span><span></span><span></span></div>
+
+      <section class="booking-section" data-step="1">
+        <div class="section-title"><b>1</b><div><h3>Escolha o serviço</h3><p>Veja preço e duração antes de reservar.</p></div></div>
+        <div class="choice-grid services-grid">
+          {% for s in services %}<button type="button" class="choice-card service-choice" data-id="{{s.id}}" data-name="{{s.name}}" data-price="{{'%.2f'|format(s.price)}}" data-duration="{{s.duration}}"><span class="choice-icon">✦</span><span><strong>{{s.name}}</strong><small>{{s.category or 'Serviço'}} · {{s.duration}} min</small></span><b>R$ {{'%.2f'|format(s.price)}}</b></button>{% endfor %}
+        </div><input type="hidden" name="service_id" id="service" required>
+      </section>
+
+      <section class="booking-section muted-step" data-step="2">
+        <div class="section-title"><b>2</b><div><h3>Escolha o profissional</h3><p>Selecione quem você prefere para o atendimento.</p></div></div>
+        <div class="choice-grid pros-grid">
+          {% for p in pros %}<button type="button" class="choice-card pro-choice" data-id="{{p.id}}" data-name="{{p.name}}"><span class="pro-avatar">{{p.name[0]}}</span><span><strong>{{p.name}}</strong><small>{{p.specialty or 'Profissional'}}</small></span><span class="select-dot"></span></button>{% endfor %}
+        </div><input type="hidden" name="professional_id" id="professional" required>
+      </section>
+
+      <section class="booking-section muted-step" data-step="3">
+        <div class="section-title"><b>3</b><div><h3>Escolha data e horário</h3><p>Mostramos apenas os horários realmente disponíveis.</p></div></div>
+        <label class="date-label">Data<input type="date" name="date" id="date" required></label>
+        <div id="slots" class="slots slots-v2"><span class="slot-help">Escolha serviço, profissional e data.</span></div>
+        <input type="hidden" name="time" id="time" required>
+      </section>
+
+      <section class="booking-section muted-step" data-step="4">
+        <div class="section-title"><b>4</b><div><h3>Seus dados</h3><p>Usaremos apenas para identificar seu agendamento.</p></div></div>
+        <div class="client-fields"><label>Seu nome<input name="name" id="client-name" required autocomplete="name"></label><label>WhatsApp<input name="phone" required placeholder="(83) 99999-9999" inputmode="tel"></label><label>E-mail <small>(opcional)</small><input type="email" name="email" autocomplete="email"></label></div>
+        <div class="booking-review" id="review"><span>Resumo</span><strong id="review-service">Selecione o serviço</strong><small id="review-detail"></small></div>
+        <button class="btn full big brandbtn" type="submit">Confirmar agendamento</button>
+      </section>
+    </form>
+  </section>
+
+  <aside class="shop-side">
+    <div class="shop-side-card"><span class="eyebrow brandtext">Sobre</span><h3>{{tenant.name}}</h3><p>{{tenant.description or 'Atendimento com hora marcada para você não perder tempo.'}}</p>{% if tenant.address %}<div class="info-row"><span>⌖</span><div><small>Endereço</small><b>{{tenant.address}}</b></div></div>{% endif %}{% if tenant.phone %}<div class="info-row"><span>◉</span><div><small>WhatsApp</small><b>{{tenant.phone}}</b></div></div>{% endif %}</div>
+    <div class="shop-side-card tip"><strong>Por que agendar online?</strong><p>Você vê a disponibilidade real da equipe e escolhe o melhor horário sem esperar resposta.</p></div>
+  </aside>
+</main>
+<footer class="public-footer">Agendamento online de {{tenant.name}}</footer>
+
+<script>
+const service=document.querySelector('#service'), professional=document.querySelector('#professional'), dateEl=document.querySelector('#date'), slots=document.querySelector('#slots'), time=document.querySelector('#time');
+let serviceData={}, proData={}; dateEl.min=new Date().toISOString().slice(0,10);
+function activateStep(n){document.querySelectorAll('.booking-section').forEach(x=>{if(+x.dataset.step<=n)x.classList.remove('muted-step')});document.querySelectorAll('.progress span').forEach((x,i)=>x.classList.toggle('active',i<n));}
+function updateReview(){let t=''; if(serviceData.name)t=`${serviceData.name} · R$ ${serviceData.price}`;document.querySelector('#review-service').textContent=t||'Selecione o serviço';let d=[];if(proData.name)d.push(proData.name);if(dateEl.value)d.push(new Date(dateEl.value+'T12:00:00').toLocaleDateString('pt-BR'));if(time.value)d.push(time.value);document.querySelector('#review-detail').textContent=d.join(' · ')}
+async function loadSlots(){time.value='';updateReview();if(!service.value||!professional.value||!dateEl.value){slots.innerHTML='<span class="slot-help">Escolha serviço, profissional e data.</span>';return}activateStep(3);slots.innerHTML='<span class="slot-help">Buscando horários disponíveis...</span>';try{const r=await fetch(`/api/b/{{tenant.slug}}/availability?professional_id=${professional.value}&service_id=${service.value}&date=${dateEl.value}`);const x=await r.json();slots.innerHTML='';if(!x.slots?.length){slots.innerHTML='<span class="slot-help empty-slot">Nenhum horário disponível nesta data. Escolha outro dia.</span>';return}x.slots.forEach(v=>{const b=document.createElement('button');b.type='button';b.className='slot';b.textContent=v;b.onclick=()=>{document.querySelectorAll('.slot').forEach(z=>z.classList.remove('active'));b.classList.add('active');time.value=v;activateStep(4);updateReview();};slots.appendChild(b)})}catch(e){slots.innerHTML='<span class="slot-help">Não foi possível consultar os horários.</span>'}}
+document.querySelectorAll('.service-choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('.service-choice').forEach(z=>z.classList.remove('selected'));b.classList.add('selected');service.value=b.dataset.id;serviceData=b.dataset;activateStep(2);updateReview();loadSlots()});
+document.querySelectorAll('.pro-choice').forEach(b=>b.onclick=()=>{document.querySelectorAll('.pro-choice').forEach(z=>z.classList.remove('selected'));b.classList.add('selected');professional.value=b.dataset.id;proData=b.dataset;activateStep(3);updateReview();loadSlots()});
+dateEl.addEventListener('change',loadSlots);
+document.querySelector('#client-name').addEventListener('input',updateReview);
+document.querySelector('#booking').addEventListener('submit',e=>{if(!service.value||!professional.value||!dateEl.value||!time.value){e.preventDefault();alert('Escolha serviço, profissional, data e horário antes de confirmar.')}});
+</script>
+</body></html>

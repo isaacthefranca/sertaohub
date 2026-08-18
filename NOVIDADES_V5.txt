@@ -1,0 +1,15 @@
+BarberSaaS V5 — Polimento, exclusões e controle de assinatura
+
+- Corrigido o card "Agenda inteligente e visual" da landing: o ícone não sobrepõe mais o título.
+- Serviços agora podem ser excluídos do catálogo. A exclusão é lógica para preservar histórico de atendimentos/financeiro.
+- Profissionais agora podem ser excluídos da equipe. Histórico antigo é preservado e eventual login vinculado é desativado.
+- Agendamentos agora podem ser excluídos permanentemente, tanto na agenda visual quanto na lista do período.
+- Confirmação visual antes de exclusões.
+- Avisos automáticos de assinatura no painel:
+  * trial: aviso nos 3 últimos dias;
+  * plano pago: aviso nos 5 últimos dias do ciclo;
+  * 3 dias de carência após vencimento;
+  * após a carência, o painel administrativo é bloqueado e redireciona para Plano e cobrança.
+- Página de cobrança continua acessível durante bloqueio.
+- Dados não são apagados durante bloqueio e voltam a ficar acessíveis após confirmação do pagamento.
+- Pagamento confirmado pelo webhook renova o período de acesso por 30 dias e configura 3 dias de carência.

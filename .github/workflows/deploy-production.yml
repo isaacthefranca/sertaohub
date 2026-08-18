@@ -1,0 +1,19 @@
+name: Deploy production
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: 'Digite PRODUCAO para confirmar'
+        required: true
+jobs:
+  deploy:
+    if: ${{ github.event.inputs.confirmation == 'PRODUCAO' }}
+    runs-on: ubuntu-latest
+    environment: production
+    steps:
+      - name: Trigger production deploy
+        env:
+          HOOK: ${{ secrets.PRODUCTION_DEPLOY_HOOK_URL }}
+        run: |
+          test -n "$HOOK" || (echo "Configure PRODUCTION_DEPLOY_HOOK_URL" && exit 1)
+          curl -fsS -X POST "$HOOK"

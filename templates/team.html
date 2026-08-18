@@ -1,0 +1,51 @@
+{% extends 'base.html' %}{% block title %}Equipe · Acessos{% endblock %}{% block content %}
+<div class="page-head"><div><span class="muted">Equipe</span><h1>Acessos da equipe</h1></div></div>
+<p class="muted">Crie um login individual para cada barbeiro acessar o portal simplificado (agenda do dia e comissões), sem ver o financeiro ou as configurações da barbearia.</p>
+{% if request.query_params.get('created') %}<div class="success-note">Acesso criado com sucesso. Repasse o e-mail e a senha ao profissional.</div>{% endif %}
+{% if request.query_params.get('reset') %}<div class="success-note">Senha redefinida com sucesso.</div>{% endif %}
+{% if request.query_params.get('error')=='email' %}<div class="notice">Informe um e-mail válido.</div>{% endif %}
+{% if request.query_params.get('error')=='password' %}<div class="notice">A senha precisa ter pelo menos 6 caracteres.</div>{% endif %}
+{% if request.query_params.get('error')=='already_linked' %}<div class="notice">Este profissional já tem um acesso ativo.</div>{% endif %}
+{% if request.query_params.get('error')=='email_taken' %}<div class="notice">Este e-mail já está em uso.</div>{% endif %}
+{% if request.query_params.get('error')=='invalid' %}<div class="notice">Selecione um profissional válido.</div>{% endif %}
+<div class="grid2">
+<form class="panel form" method="post" action="/app/team">
+  <h2>Novo acesso</h2>
+  {% if available_pros %}
+  <label>Profissional<select name="professional_id" required>{% for p in available_pros %}<option value="{{p.id}}">{{p.name}}</option>{% endfor %}</select></label>
+  <label>E-mail de login<input type="email" name="email" required placeholder="barbeiro@email.com"></label>
+  <label>Senha provisória<input type="password" name="password" required minlength="6" placeholder="mínimo 6 caracteres"></label>
+  <button class="btn">Criar acesso</button>
+  {% else %}
+  <div class="empty">Todos os profissionais ativos já têm um acesso, ou você ainda não cadastrou nenhum profissional. <a href="/app/professionals">Cadastrar profissional →</a></div>
+  {% endif %}
+</form>
+<section class="panel">
+  <h2>Acessos criados</h2>
+  {% if staff %}
+  <div class="list">
+  {% for s in staff %}
+    <div class="list-item">
+      <div class="avatar">{{s.name[0]}}</div>
+      <div class="grow">
+        <b>{{s.name}}</b>
+        <small>{{s.email}} · {{s.professional_name or 'Profissional removido'}} · {% if s.active %}<span class="badge">Ativo</span>{% else %}<span class="badge" style="background:#fee2e2;color:#991b1b">Desativado</span>{% endif %}</small>
+      </div>
+      <div class="item-actions">
+        <button class="action-btn edit" type="button" onclick="toggleEdit('reset-{{s.id}}')">Redefinir senha</button>
+        <form method="post" action="/app/team/{{s.id}}/toggle"><button class="action-btn {% if s.active %}delete{% else %}edit{% endif %}" type="submit">{% if s.active %}Desativar{% else %}Reativar{% endif %}</button></form>
+      </div>
+    </div>
+    <form id="reset-{{s.id}}" class="panel form inline-edit" method="post" action="/app/team/{{s.id}}/reset-password" hidden>
+      <div class="inline-edit-head"><div><b>Redefinir senha de {{s.name}}</b></div><button type="button" class="close-edit" onclick="toggleEdit('reset-{{s.id}}')">×</button></div>
+      <label>Nova senha<input type="password" name="password" required minlength="6"></label>
+      <div class="edit-actions"><button class="btn">Salvar nova senha</button><button class="btn ghost" type="button" onclick="toggleEdit('reset-{{s.id}}')">Cancelar</button></div>
+    </form>
+  {% endfor %}
+  </div>
+  {% else %}
+  <div class="empty">Nenhum acesso de equipe criado ainda.</div>
+  {% endif %}
+</section>
+</div>
+{% endblock %}{% block scripts %}<script>function toggleEdit(id){const el=document.getElementById(id);el.hidden=!el.hidden;if(!el.hidden)el.scrollIntoView({behavior:'smooth',block:'nearest'});}</script>{% endblock %}

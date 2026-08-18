@@ -1,0 +1,190 @@
+{% extends 'base.html' %}
+{% block title %}Barber Hub — Gestão para barbearias{% endblock %}
+{% block content %}
+<div class="bh-page">
+  <header class="bh-header" id="bhHeader">
+    <div class="bh-nav-wrap">
+      <a href="#inicio" class="bh-logo" aria-label="Barber Hub - início">
+        <img src="/static/brand/barberhub-white.png" alt="Barber Hub">
+      </a>
+      <nav class="bh-nav" id="bhNav" aria-label="Navegação principal">
+        <a class="active" href="#inicio">Início</a>
+        <a href="#recursos">Recursos</a>
+        <a href="#como-funciona">Como funciona</a>
+        <a href="#planos">Planos</a>
+        <a href="#faq">FAQ</a>
+      </nav>
+      <div class="bh-actions">
+        <a class="bh-login" href="/login">Entrar</a>
+        <a class="bh-btn bh-btn-gold bh-btn-small" href="/register">Começar grátis <span>→</span></a>
+      </div>
+      <button class="bh-menu" id="bhMenu" aria-label="Abrir menu" aria-expanded="false">☰</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="bh-hero bh-anchor" id="inicio">
+      <div class="bh-hero-bg" aria-hidden="true"></div>
+      <div class="bh-shell bh-hero-grid">
+        <div class="bh-hero-copy">
+          <span class="bh-overline">GESTÃO FEITA PARA BARBEARIAS</span>
+          <h1>Menos improviso.<br><strong>Mais agenda cheia.</strong></h1>
+          <p>Organize agenda, equipe, clientes, caixa, comissões e vendas em um só lugar — enquanto seus clientes agendam pelo celular.</p>
+          <div class="bh-hero-buttons">
+            <a class="bh-btn bh-btn-gold" href="/register">Começar 7 dias grátis <span>→</span></a>
+            <a class="bh-btn bh-btn-ghost" href="#recursos">Conhecer recursos</a>
+          </div>
+          <div class="bh-hero-proof">
+            <span>✓ Sem cartão</span><span>✓ Configuração rápida</span><span>✓ Página própria</span>
+          </div>
+        </div>
+        <div class="bh-hero-visual">
+          <div class="bh-photo-frame">
+            <img src="/static/barber-hero.jpg" alt="Corte masculino em barbearia">
+            <div class="bh-photo-shade"></div>
+          </div>
+          <div class="bh-floating bh-floating-top"><small>AGENDA DE HOJE</small><strong>18 atendimentos</strong><span>14 concluídos</span></div>
+          <div class="bh-floating bh-floating-bottom"><i>✓</i><div><strong>Novo agendamento</strong><span>14:30 · Corte masculino</span></div></div>
+        </div>
+      </div>
+      <div class="bh-scroll-cue"><span></span>ROLE PARA CONHECER</div>
+    </section>
+
+    <section class="bh-strip">
+      <div class="bh-shell bh-strip-grid">
+        <div><strong>Agenda</strong><span>sem conflitos</span></div>
+        <div><strong>PDV & Caixa</strong><span>tudo rastreável</span></div>
+        <div><strong>Comissões</strong><span>cálculo automático</span></div>
+        <div><strong>Financeiro</strong><span>visão do negócio</span></div>
+        <div><strong>White-label</strong><span>sua própria marca</span></div>
+      </div>
+    </section>
+
+    <section class="bh-section bh-anchor" id="recursos">
+      <div class="bh-shell">
+        <div class="bh-section-title centered">
+          <span class="bh-overline">TUDO CONECTADO</span>
+          <h2>Da cadeira ao caixa, <strong>uma operação inteira organizada.</strong></h2>
+          <p>O Barber Hub acompanha a rotina real da barbearia — sem planilhas espalhadas e sem depender da memória.</p>
+        </div>
+        <div class="bh-feature-grid">
+          <article class="bh-feature-card"><div class="bh-icon">✂</div><h3>Agenda inteligente</h3><p>Horários por profissional, duração real de cada serviço, extras, bloqueios e prevenção automática de conflitos.</p></article>
+          <article class="bh-feature-card"><div class="bh-icon">◉</div><h3>Gestão da equipe</h3><p>Cadastre profissionais, horários, especialidades e acompanhe a produção de cada pessoa.</p></article>
+          <article class="bh-feature-card"><div class="bh-icon">▣</div><h3>PDV, caixa e financeiro</h3><p>Venda serviços e produtos, acompanhe entradas, saídas e mantenha todo movimento financeiro rastreável.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="bh-showcase bh-anchor" id="como-funciona">
+      <div class="bh-shell bh-showcase-grid">
+        <div class="bh-showcase-photo">
+          <img src="/static/barber-pole.jpg" alt="Identidade clássica de barbearia">
+          <div class="bh-showcase-stamp"><span>BARBER</span><strong>HUB</strong></div>
+        </div>
+        <div class="bh-showcase-copy">
+          <span class="bh-overline">FEITO PARA A ROTINA REAL</span>
+          <h2>Seu cliente agenda.<br><strong>Você mantém o controle.</strong></h2>
+          <p>Enquanto o cliente escolhe serviço, profissional e horário disponível, o Barber Hub organiza automaticamente a agenda e prepara o restante do fluxo.</p>
+          <div class="bh-flow-list">
+            <div><span>01</span><p><b>Personalize sua barbearia</b><small>Logo, cores, WhatsApp, endereço e página pública.</small></p></div>
+            <div><span>02</span><p><b>Cadastre equipe e serviços</b><small>Preço, duração e horários de cada profissional.</small></p></div>
+            <div><span>03</span><p><b>Compartilhe seu link</b><small>O cliente agenda sozinho pelo celular.</small></p></div>
+            <div><span>04</span><p><b>Gerencie e receba</b><small>Agenda, PDV, caixa, comissões e relatórios conectados.</small></p></div>
+          </div>
+          <a class="bh-text-link" href="/register">Criar minha barbearia agora →</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="bh-section bh-dark-panel">
+      <div class="bh-shell">
+        <div class="bh-section-title">
+          <span class="bh-overline">VISÃO DO NEGÓCIO</span>
+          <h2>Informação que ajuda você a <strong>decidir melhor.</strong></h2>
+        </div>
+        <div class="bh-dashboard-card">
+          <div class="bh-dash-top"><img src="/static/brand/barberhub-white.png" alt=""><span>Visão geral</span><b>Hoje</b></div>
+          <div class="bh-dash-body">
+            <aside><i></i><i class="on"></i><i></i><i></i><i></i><i></i></aside>
+            <div class="bh-dash-content">
+              <div class="bh-dash-head"><div><small>Bom dia 👋</small><strong>Barbearia Modelo</strong></div><button>+ Agendar</button></div>
+              <div class="bh-dash-metrics"><article><small>Faturamento hoje</small><strong>R$ 1.240</strong><em>+12,4%</em></article><article><small>Agendamentos</small><strong>18</strong><em>14 concluídos</em></article><article><small>Clientes</small><strong>436</strong><em>+8 este mês</em></article></div>
+              <div class="bh-dash-table"><div><b>Agenda de hoje</b><span>Ver agenda</span></div><p><time>09:00</time><strong>Corte masculino</strong><small>João</small></p><p><time>10:00</time><strong>Barba</strong><small>Carlos</small></p><p><time>11:30</time><strong>Corte + Barba</strong><small>Lucas</small></p></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="bh-section bh-anchor" id="planos">
+      <div class="bh-shell">
+        <div class="bh-section-title centered"><span class="bh-overline">PLANOS</span><h2>Comece simples. <strong>Cresça sem trocar de sistema.</strong></h2><p>7 dias grátis para conhecer a plataforma antes de escolher.</p></div>
+        <div class="bh-pricing-grid">
+          <article><span>STARTER</span><h3>R$ 49,90<small>/mês</small></h3><p>Para uma operação enxuta começar organizada.</p><ul><li>Até 3 profissionais</li><li>Agenda online</li><li>Clientes e serviços</li><li>Página pública personalizada</li></ul><a href="/register" class="bh-btn bh-btn-outline full">Começar grátis</a></article>
+          <article class="featured"><div class="bh-price-tag">MAIS ESCOLHIDO</div><span>PRO</span><h3>R$ 89,90<small>/mês</small></h3><p>Gestão completa para a rotina da barbearia.</p><ul><li>Até 10 profissionais</li><li>PDV e caixa</li><li>Financeiro e comissões</li><li>Horários extras e bloqueios</li></ul><a href="/register" class="bh-btn bh-btn-gold full">Testar o Pro grátis →</a></article>
+          <article><span>PREMIUM</span><h3>R$ 149,90<small>/mês</small></h3><p>Para equipes maiores e operações em expansão.</p><ul><li>Até 50 profissionais</li><li>Relatórios avançados</li><li>Recursos premium</li><li>Estrutura para crescer</li></ul><a href="/register" class="bh-btn bh-btn-outline full">Começar grátis</a></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="bh-section bh-testimonials">
+      <div class="bh-shell">
+        <div class="bh-section-title centered"><span class="bh-overline">PARA QUEM VIVE A BARBEARIA</span><h2>Mais organização no salão.<br><strong>Mais profissionalismo para o cliente.</strong></h2></div>
+        <div class="bh-testimonial-grid">
+          <article><div class="bh-stars">★★★★★</div><p>“A agenda deixa de ser uma sequência de mensagens e vira uma operação organizada. Todo mundo sabe o que acontece no dia.”</p><strong>Gestão mais simples</strong><span>Agenda + equipe</span></article>
+          <article><div class="bh-stars">★★★★★</div><p>“Do atendimento ao pagamento, as informações ficam conectadas. Isso reduz retrabalho e facilita acompanhar o caixa.”</p><strong>Controle de ponta a ponta</strong><span>PDV + financeiro</span></article>
+          <article><div class="bh-stars">★★★★★</div><p>“O cliente recebe uma página profissional da própria barbearia e consegue escolher o melhor horário sem depender de resposta.”</p><strong>Experiência do cliente</strong><span>Agendamento online</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="bh-section bh-faq bh-anchor" id="faq">
+      <div class="bh-shell bh-faq-grid">
+        <div class="bh-section-title"><span class="bh-overline">DÚVIDAS FREQUENTES</span><h2>Antes de colocar sua <strong>agenda para rodar.</strong></h2><p>Respostas diretas para as perguntas mais comuns.</p></div>
+        <div class="bh-faq-list">
+          <details open><summary>Preciso instalar alguma coisa?<span>+</span></summary><p>Não. O Barber Hub funciona pelo navegador e também pode ser instalado no celular como PWA.</p></details>
+          <details><summary>O cliente precisa criar conta?<span>+</span></summary><p>Não. Ele escolhe serviço, profissional, data e horário e informa apenas os dados necessários para o agendamento.</p></details>
+          <details><summary>Minha barbearia pode usar a própria marca?<span>+</span></summary><p>Sim. Cada barbearia pode personalizar logo, cores, informações e sua página pública.</p></details>
+          <details><summary>Consigo controlar horários diferentes por barbeiro?<span>+</span></summary><p>Sim. Você define a jornada semanal, horários extras e bloqueios por profissional e por data.</p></details>
+        </div>
+      </div>
+    </section>
+
+    <section class="bh-final-cta">
+      <div class="bh-final-bg"></div>
+      <div class="bh-shell bh-final-content">
+        <img src="/static/brand/barberhub-black.png" alt="Barber Hub">
+        <h2>Organize hoje.<br><strong>Atenda melhor amanhã.</strong></h2>
+        <p>Comece seu teste gratuito e coloque a operação da sua barbearia em um único sistema.</p>
+        <a class="bh-btn bh-btn-black" href="/register">Começar 7 dias grátis <span>→</span></a>
+      </div>
+    </section>
+  </main>
+
+  <footer class="bh-footer">
+    <div class="bh-shell">
+      <a href="#inicio"><img src="/static/brand/barberhub-white.png" alt="Barber Hub"></a>
+      <p>Gestão completa para barbearias.</p>
+      <div><a href="/login">Entrar</a><a href="/register">Criar conta</a></div>
+    </div>
+  </footer>
+</div>
+{% endblock %}
+{% block scripts %}
+<script>
+(() => {
+  const header=document.getElementById('bhHeader');
+  const nav=document.getElementById('bhNav');
+  const menu=document.getElementById('bhMenu');
+  const links=[...document.querySelectorAll('.bh-nav a')];
+  const sections=[...document.querySelectorAll('.bh-anchor')];
+  const setHeader=()=>header?.classList.toggle('scrolled',window.scrollY>18);
+  setHeader(); window.addEventListener('scroll',setHeader,{passive:true});
+  menu?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',open?'true':'false');menu.textContent=open?'×':'☰';});
+  links.forEach(link=>link.addEventListener('click',()=>{nav.classList.remove('open');if(menu){menu.textContent='☰';menu.setAttribute('aria-expanded','false')}}));
+  const obs=new IntersectionObserver(entries=>{const visible=entries.filter(e=>e.isIntersecting).sort((a,b)=>b.intersectionRatio-a.intersectionRatio)[0];if(!visible)return;links.forEach(l=>l.classList.toggle('active',l.getAttribute('href')==='#'+visible.target.id));},{rootMargin:'-25% 0px -55% 0px',threshold:[0,.15,.5]});
+  sections.forEach(s=>obs.observe(s));
+  document.querySelectorAll('.bh-faq-list details').forEach(d=>d.addEventListener('toggle',()=>{if(d.open)document.querySelectorAll('.bh-faq-list details').forEach(o=>{if(o!==d)o.open=false})}));
+})();
+</script>
+{% endblock %}

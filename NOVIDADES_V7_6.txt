@@ -1,0 +1,7 @@
+BarberSaaS V7.6 - Financeiro rastreável
+- Vendas do PDV agora aparecem no extrato do Financeiro.
+- Identificação de Atendimento e Venda no lançamento.
+- Origem do lançamento (PDV, Caixa ou Financeiro).
+- Forma de pagamento exibida quando disponível.
+- Receitas manuais do Financeiro agora entram corretamente nos totais.
+- Totais do topo são derivados do mesmo extrato exibido, evitando valor sem rastreabilidade.

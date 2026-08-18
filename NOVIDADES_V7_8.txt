@@ -1,0 +1,13 @@
+BarberSaaS V7.8 — Comissão integrada ao Caixa
+
+- Marcar pago agora exige Caixa aberto.
+- Um único clique cria saída no Caixa e despesa no Financeiro.
+- A comissão só muda para paid depois das duas movimentações.
+- Operação atômica: em caso de erro, nada fica parcialmente salvo.
+- Proteção contra pagamento duplicado mantida.
+- Caixa fechado gera aviso e mantém a comissão pendente.
+
+Testes executados:
+- comissão paga com Caixa aberto: 1 saída no Caixa + 1 despesa financeira + status paid;
+- segundo clique: nenhuma duplicidade;
+- Caixa fechado: nenhum lançamento e status continua pending.

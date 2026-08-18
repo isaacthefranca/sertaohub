@@ -1,0 +1,93 @@
+PASS GET / 200
+PASS GET /health 200
+PASS GET /ready 200
+PASS GET /login 200
+PASS GET /register 200
+PASS GET /forgot-password 200
+PASS GET /b/barbearia-modelo 200
+PASS GET /manifest.json 200
+PASS GET /service-worker.js 200
+PASS security nosniff 
+PASS health env 
+PASS ready db 
+PASS unknown barbershop 404 
+PASS login wrong rejected 
+PASS login demo 
+PASS owner page /app 200
+PASS owner page /app/services 200
+PASS owner page /app/professionals 200
+PASS owner page /app/schedules 200
+PASS owner page /app/customers 200
+PASS owner page /app/appointments 200
+PASS owner page /app/pdv 200
+PASS owner page /app/cash 200
+PASS owner page /app/finance 200
+PASS owner page /app/products 200
+PASS owner page /app/commissions 200
+PASS owner page /app/memberships 200
+PASS owner page /app/reports 200
+PASS owner page /app/team 200
+PASS owner page /app/settings 200
+PASS owner page /app/branding 200
+PASS owner page /app/billing 200
+PASS password min 8 register 
+PASS register new tenant 
+PASS registered user db 
+PASS trial created 
+PASS add service 
+PASS service saved custom cat 
+PASS edit service 
+PASS tenant isolation service edit 
+PASS add professional 
+PASS add customer 
+PASS special hours add 
+PASS availability API {'slots': ['09:00', '09:30', '10:00', '10:30', '11:00', '11:30', '12:00', '12:30', '13:00', '13:30', '14:00', '14:30', '15:00', '15:30', '16:00', '16:
+PASS public booking /b/barbearia-modelo?success=4#confirmacao
+PASS public booking db 
+PASS public double-book blocked /b/barbearia-modelo?error=conflict
+PASS ics export 
+PASS forgot password sends token 
+PASS reset password 
+PASS reset token one use 
+PASS team password min 8 
+PASS team add 
+PASS barber login redirect 
+PASS barber portal 
+PASS barber blocked owner app 
+PASS cash open 
+PASS internal appointment create 
+PASS internal conflict blocked 
+PASS appointment completed 
+PASS completed pending PDV 
+PASS appointment charge 
+PASS sale linked appointment 
+PASS cash income generated 
+PASS commission generated 
+PASS duplicate appointment charge blocked 
+PASS commission pay status 
+PASS commission cash out 
+PASS commission finance expense 
+PASS commission pay idempotent 
+PASS post-flow page /app/finance 
+PASS post-flow page /app/reports 
+PASS post-flow page /app 
+PASS post-flow page /app/cash 
+PASS post-flow page /app/commissions 
+PASS reports paid sale amount 
+PASS cash close 
+PASS commission blocked cash closed 
+PASS product create 
+PASS product sale stock decrement 
+PASS insufficient stock blocked 
+PASS settings save 
+PASS membership plan create 
+PASS billing fallback safe 
+PASS billing invalid method blocked 
+PASS webhook accepted dev 
+PASS webhook duplicate idempotent 
+PASS tenant isolation tenant ids distinct 
+PASS tenant isolation service delete 
+PASS expired trial blocks app 
+PASS billing exempt from lock 
+
+SUMMARY 91 passed 0 failed

@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block title %}Caixa{% endblock %}{% block content %}
+<div class="page-head"><div><span class="muted">Financeiro diário</span><h1>Caixa</h1><p class="page-sub">Acompanhe entradas, saídas, sangrias e o fechamento do dia.</p></div>{% if reg %}<span class="cash-open">● Caixa aberto desde {{reg.opened_at[11:16]}}</span>{% else %}<span class="soft-badge">Caixa fechado</span>{% endif %}</div>
+{% if not reg %}
+<section class="panel open-cash-card"><div class="open-cash-icon">▣</div><div><h2>Abra o caixa para começar</h2><p>Informe o dinheiro existente no caixa físico no início do expediente.</p></div><form method="post" action="/app/cash/open"><label>Saldo inicial<input name="opening_balance" type="number" step="0.01" value="0"></label><button class="btn">Abrir caixa</button></form></section>
+{% else %}
+<div class="cash-stats"><div class="mini-stat"><span>Saldo inicial</span><strong>{{reg.opening_balance|money}}</strong></div><div class="mini-stat positive"><span>Entradas</span><strong>+ {{income|money}}</strong></div><div class="mini-stat negative"><span>Saídas</span><strong>- {{expense|money}}</strong></div><div class="mini-stat"><span>Saldo esperado</span><strong>{{expected|money}}</strong></div></div>
+<div class="cash-layout">
+  <section class="panel"><div class="panel-title-row"><div><h2>Nova movimentação</h2><p>Registre entrada, retirada, sangria ou outra movimentação manual.</p></div></div>
+    <form method="post" action="/app/cash/transaction" class="cash-form">
+      <label>Tipo<select name="kind"><option value="income">Entrada</option><option value="expense">Saída / Sangria</option></select></label>
+      <label>Categoria<input name="category" placeholder="Ex.: troco, suprimento, retirada"></label>
+      <label class="wide">Descrição<input name="description" placeholder="Descreva a movimentação" required></label>
+      <label>Valor<input name="amount" type="number" step="0.01" min="0.01" placeholder="0,00" required></label>
+      <label>Pagamento<select name="payment_method"><option>PIX</option><option>Cartão de crédito</option><option>Cartão de débito</option><option>Dinheiro</option></select></label>
+      <button class="btn wide">Registrar movimentação</button>
+    </form>
+  </section>
+  <section class="panel close-cash-card"><h2>Fechar caixa</h2><p>Ao encerrar o expediente, informe o total contado. O sistema compara com o saldo esperado.</p><div class="expected-box"><small>Saldo esperado</small><strong>{{expected|money}}</strong></div><form method="post" action="/app/cash/close" class="form"><label>Saldo contado<input name="closing_balance" type="number" step="0.01" placeholder="0,00" required></label><button class="btn ghost full">Fechar caixa</button></form></section>
+</div>
+{% endif %}
+<section class="panel tx-panel"><div class="panel-title-row"><div><h2>Movimentações recentes</h2><p>Últimos lançamentos registrados.</p></div></div>{% if tx %}<div class="tx-list">{% for r in tx %}<article><div class="tx-dot {{r.kind}}">{% if r.kind=='income' %}↗{% else %}↙{% endif %}</div><div class="grow"><b>{{r.description}}</b><small>{{r.created_at[8:10]}}/{{r.created_at[5:7]}} às {{r.created_at[11:16]}} · {{r.payment_method or '—'}}</small></div><strong class="{% if r.kind=='income' %}money-in{% else %}money-out{% endif %}">{% if r.kind=='income' %}+{% else %}-{% endif %} {{r.amount|money}}</strong></article>{% endfor %}</div>{% else %}<div class="empty">Nenhuma movimentação registrada.</div>{% endif %}</section>
+{% endblock %}

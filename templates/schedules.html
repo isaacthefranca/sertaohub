@@ -1,0 +1,41 @@
+{% extends 'base.html' %}{% block title %}Horários{% endblock %}{% block content %}
+<div class="page-head"><div><span class="muted">Disponibilidade da equipe</span><h1>Horários</h1><p class="page-sub">Defina a jornada normal, abra horários extras ou bloqueie períodos específicos.</p></div></div>
+{% if request.query_params.get('error') %}<div class="alert">Confira a data e os horários informados.</div>{% endif %}
+<div class="schedule-layout">
+  <section class="panel schedule-main">
+    <div class="panel-title-row"><div><h2>Jornada semanal</h2><p>Horário padrão de cada profissional. Você pode alterar qualquer dia.</p></div><span class="soft-badge">Recorrente</span></div>
+    {% for p in pros %}
+    <details class="schedule-pro" {% if loop.first %}open{% endif %}>
+      <summary><span class="avatar">{{p.name[0]}}</span><div><b>{{p.name}}</b><small>{{p.specialty}}</small></div><span class="chev">⌄</span></summary>
+      <div class="weekly-grid">
+        {% for wd,label in [(0,'Segunda'),(1,'Terça'),(2,'Quarta'),(3,'Quinta'),(4,'Sexta'),(5,'Sábado'),(6,'Domingo')] %}
+        {% set h=hours.get((p.id,wd)) %}
+        <form method="post" action="/app/schedules/weekly/{{p.id}}/{{wd}}" class="weekly-row">
+          <div class="weekday"><b>{{label}}</b><label class="switch-label"><input type="checkbox" name="active" value="1" {% if not h or h.active %}checked{% endif %}><span>Atende</span></label></div>
+          <div class="time-range"><input type="time" name="opens" value="{{h.opens if h else '09:00'}}"><span>até</span><input type="time" name="closes" value="{{h.closes if h else '19:00'}}"></div>
+          <button class="btn ghost smallbtn">Salvar</button>
+        </form>
+        {% endfor %}
+      </div>
+    </details>
+    {% endfor %}
+  </section>
+  <aside class="panel special-card">
+    <div class="panel-title-row"><div><h2>Horário especial</h2><p>Use para atender além do expediente ou bloquear um período.</p></div></div>
+    <form method="post" action="/app/schedules/special" class="form special-form">
+      <label>Profissional<select name="professional_id" required>{% for p in pros %}<option value="{{p.id}}">{{p.name}}</option>{% endfor %}</select></label>
+      <label>Tipo<select name="kind"><option value="extra">+ Horário extra</option><option value="blocked">Bloquear período</option></select></label>
+      <label>Data<input type="date" name="date" min="{{request.state.today if request.state.today is defined else ''}}" required></label>
+      <div class="row"><label>Início<input type="time" name="starts" required></label><label>Fim<input type="time" name="ends" required></label></div>
+      <label>Observação<input name="note" placeholder="Ex.: atendimento especial, folga, almoço..."></label>
+      <button class="btn full">Salvar horário especial</button>
+    </form>
+    <div class="special-list">
+      <h3>Próximas exceções</h3>
+      {% for x in extras %}
+      <div class="special-item {{x.kind}}"><div><b>{{x.date[8:10]}}/{{x.date[5:7]}} · {{x.starts}}–{{x.ends}}</b><small>{{x.professional}} · {% if x.kind=='extra' %}Horário extra{% else %}Bloqueado{% endif %}{% if x.note %} · {{x.note}}{% endif %}</small></div><form method="post" action="/app/schedules/special/{{x.id}}/delete"><button class="icon-danger" title="Excluir">×</button></form></div>
+      {% else %}<div class="empty compact">Nenhum horário especial futuro.</div>{% endfor %}
+    </div>
+  </aside>
+</div>
+{% endblock %}

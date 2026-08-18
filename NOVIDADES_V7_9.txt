@@ -1,0 +1,10 @@
+BarberSaaS V7.9 — Dashboard e Relatórios consistentes
+
+- Dashboard: faturamento do dia agora vem de vendas com status pago.
+- Dashboard: "Próximos atendimentos" exibe somente Confirmado, Chegou e Atendendo.
+- Atendimentos Concluídos, Não veio e Cancelados não permanecem em "Próximos atendimentos".
+- Relatórios: receita mensal passa a vir de vendas efetivamente pagas.
+- Relatórios: "Atendimentos realizados" conta somente atendimentos vinculados a vendas pagas.
+- Serviços mais vendidos usa itens reais de vendas pagas, não agendamentos em qualquer status.
+- Performance da equipe usa vendas pagas vinculadas ao profissional.
+- Serviços/profissionais sem venda deixam de poluir os rankings com R$ 0,00.

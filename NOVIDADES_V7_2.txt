@@ -1,0 +1,7 @@
+BarberSaaS V7.2 — correção da alteração de status na Agenda
+
+- Atendimentos curtos (ex.: 30 minutos) agora possuem menu de ações compacto "•••".
+- O menu permite mudar para Confirmado, Chegou, Atendendo, Concluído, Não veio ou Cancelado.
+- O botão de exclusão permanece separado.
+- A lista "Atendimentos do período" também ganhou seletor de status para todos os agendamentos.
+- Não é necessário aumentar artificialmente o bloco de um serviço curto, evitando sobreposição visual na agenda.
