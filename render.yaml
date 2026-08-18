@@ -2,7 +2,7 @@ services:
   - type: web
     name: barbersaas
     runtime: docker
-    plan: starter
+    plan: free
     healthCheckPath: /health
     envVars:
       - key: APP_ENV
@@ -35,4 +35,4 @@ services:
         value: "1"
 databases:
   - name: barbersaas-db
-    plan: basic-256mb
+    plan: free
