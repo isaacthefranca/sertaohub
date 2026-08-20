@@ -1,4 +1,4 @@
-{% extends "base.html" %}{% block title %}Caixa{% endblock %}{% block content %}
+{% extends "base.html" %}{% block title %}Caixa{% endblock %}{% block content %}{% if request.query_params.get('error')=='pending_commissions' %}<div class="alert warning">Existem comissões pendentes de pagamento. Pague todas em Comissões antes de fechar o caixa.</div>{% endif %}
 <div class="page-head"><div><span class="muted">Financeiro diário</span><h1>Caixa</h1><p class="page-sub">Acompanhe entradas, saídas, sangrias e o fechamento do dia.</p></div>{% if reg %}<span class="cash-open">● Caixa aberto desde {{reg.opened_at[11:16]}}</span>{% else %}<span class="soft-badge">Caixa fechado</span>{% endif %}</div>
 {% if not reg %}
 <section class="panel open-cash-card"><div class="open-cash-icon">▣</div><div><h2>Abra o caixa para começar</h2><p>Informe o dinheiro existente no caixa físico no início do expediente.</p></div><form method="post" action="/app/cash/open"><label>Saldo inicial<input name="opening_balance" type="number" step="0.01" value="0"></label><button class="btn">Abrir caixa</button></form></section>

@@ -951,7 +951,14 @@ def cash_tx(request:Request,kind:str=Form(...),category:str=Form('Geral'),descri
 def cash_close(request:Request,closing_balance:float=Form(...)):
     user,tenant=require_tenant_user(request)
     if not user:return RedirectResponse('/login',303)
-    conn=db(); conn.execute("UPDATE cash_registers SET closing_balance=?,closed_at=?,status='closed' WHERE tenant_id=? AND status='open'",(closing_balance,now(),tenant['id'])); conn.commit(); conn.close(); return RedirectResponse('/app/cash',303)
+    conn=db()
+    # Não permite fechar o caixa com comissões pendentes: pagar comissão exige
+    # caixa aberto, então deixar fechar com pendências travaria o pagamento
+    # delas até a abertura de uma nova sessão.
+    pending=conn.execute("SELECT COUNT(*)c FROM commission_entries WHERE tenant_id=? AND status='pending'",(tenant['id'],)).fetchone()['c']
+    if pending:
+        conn.close(); return RedirectResponse('/app/cash?error=pending_commissions',303)
+    conn.execute("UPDATE cash_registers SET closing_balance=?,closed_at=?,status='closed' WHERE tenant_id=? AND status='open'",(closing_balance,now(),tenant['id'])); conn.commit(); conn.close(); return RedirectResponse('/app/cash',303)
 
 @app.get('/app/pdv', response_class=HTMLResponse)
 def pdv_page(request:Request):
