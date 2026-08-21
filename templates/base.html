@@ -22,18 +22,18 @@
     <a class="{% if path.startswith('/app/schedules') %}active{% endif %}" href="/app/schedules">◷ <span>Horários</span></a>
     <a class="{% if path.startswith('/app/customers') %}active{% endif %}" href="/app/customers">♙ <span>Clientes</span></a>
     <a class="{% if path.startswith('/app/professionals') %}active{% endif %}" href="/app/professionals">♟ <span>Profissionais</span></a>
-    <a class="{% if path.startswith('/app/team') %}active{% endif %}" href="/app/team">☺ <span>Acessos da equipe</span></a>
+    {% if user.role=='owner' %}<a class="{% if path.startswith('/app/team') %}active{% endif %}" href="/app/team">☺ <span>Acessos da equipe</span></a>{% endif %}
     <a class="{% if path.startswith('/app/services') %}active{% endif %}" href="/app/services">✂ <span>Serviços</span></a>
     <a class="{% if path.startswith('/app/pdv') %}active{% endif %}" href="/app/pdv">▣ <span>PDV / Vendas</span></a>
     <a class="{% if path.startswith('/app/cash') %}active{% endif %}" href="/app/cash">▤ <span>Caixa</span></a>
     <a class="{% if path.startswith('/app/products') %}active{% endif %}" href="/app/products">□ <span>Estoque</span></a>
-    <a class="{% if path.startswith('/app/finance') %}active{% endif %}" href="/app/finance">↗ <span>Financeiro</span></a>
+    {% if user.role=='owner' %}<a class="{% if path.startswith('/app/finance') %}active{% endif %}" href="/app/finance">↗ <span>Financeiro</span></a>{% endif %}
     <a class="{% if path.startswith('/app/commissions') %}active{% endif %}" href="/app/commissions">% <span>Comissões</span></a>
     <a class="{% if path.startswith('/app/memberships') %}active{% endif %}" href="/app/memberships">☆ <span>Clube</span></a>
-    <a class="{% if path.startswith('/app/reports') %}active{% endif %}" href="/app/reports">▥ <span>Relatórios</span></a>
+    {% if user.role=='owner' %}<a class="{% if path.startswith('/app/reports') %}active{% endif %}" href="/app/reports">▥ <span>Relatórios</span></a>
     <a class="{% if path.startswith('/app/billing') %}active{% endif %}" href="/app/billing">◇ <span>Plano e cobrança</span></a>
     <a class="{% if path.startswith('/app/settings') %}active{% endif %}" href="/app/settings">⚙ <span>Configurações</span></a>
-    <a class="{% if path.startswith('/app/branding') %}active{% endif %}" href="/app/branding">✦ <span>Minha marca</span></a>
+    <a class="{% if path.startswith('/app/branding') %}active{% endif %}" href="/app/branding">✦ <span>Minha marca</span></a>{% endif %}
     <a href="/b/{{tenant.slug}}" target="_blank">↗ <span>Página pública</span></a>
   </nav>
   <div class="sidebar-footer"><small>{{user.name}} · {{user.role}}</small><a href="/logout">Sair</a></div>
