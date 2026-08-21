@@ -17,6 +17,9 @@
     <b>{{tenant.name}}</b>
   </a>
   <nav>
+    {% if user.role=='barber' %}
+    <a class="{% if path=='/barber' %}active{% endif %}" href="/barber">◫ <span>Meu dia</span></a>
+    {% else %}
     <a class="{% if path=='/app' %}active{% endif %}" href="/app">◫ <span>Dashboard</span></a>
     <a class="{% if path.startswith('/app/appointments') %}active{% endif %}" href="/app/appointments">▦ <span>Agenda</span></a>
     <a class="{% if path.startswith('/app/schedules') %}active{% endif %}" href="/app/schedules">◷ <span>Horários</span></a>
@@ -35,6 +38,7 @@
     <a class="{% if path.startswith('/app/settings') %}active{% endif %}" href="/app/settings">⚙ <span>Configurações</span></a>
     <a class="{% if path.startswith('/app/branding') %}active{% endif %}" href="/app/branding">✦ <span>Minha marca</span></a>{% endif %}
     <a href="/b/{{tenant.slug}}" target="_blank">↗ <span>Página pública</span></a>
+    {% endif %}
   </nav>
   <div class="sidebar-footer"><small>{{user.name}} · {{user.role}}</small><a href="/logout">Sair</a></div>
 </aside>
