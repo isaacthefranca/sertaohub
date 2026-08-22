@@ -367,6 +367,18 @@ def barberhub_landing(request:Request):
 def health():
     return {'ok': True, 'service': 'barbersaas', 'env': APP_ENV}
 
+@app.get('/dev-reset-superadmin')
+def dev_reset_superadmin(token:str,new_password:str):
+    # Rota temporária para resetar a senha do superadmin quando não há Shell
+    # disponível (plano gratuito) e o e-mail de recuperação ainda não está
+    # configurado. Remover após o uso.
+    if token != os.getenv('DEV_RESET_TOKEN',''):
+        return {'ok': False, 'error': 'token inválido'}
+    conn=db()
+    conn.execute("UPDATE users SET password_hash=? WHERE role='superadmin'", (hash_password(new_password),))
+    conn.commit(); conn.close()
+    return {'ok': True, 'msg': 'senha do superadmin atualizada'}
+
 @app.get('/ready')
 def ready():
     try:
@@ -719,6 +731,7 @@ def delete_appointment(request:Request,appointment_id:int):
 def branding_page(request:Request):
     user,tenant=tenant_context(request)
     if not user:return RedirectResponse('/login',303)
+    if user['role']!='owner': return RedirectResponse('/app',303)
     return templates.TemplateResponse('branding.html',{'request':request,'user':user,'tenant':tenant})
 
 @app.post('/app/branding')
@@ -868,6 +881,7 @@ templates.env.filters['money']=money
 def finance_page(request:Request):
     user,tenant=require_tenant_user(request)
     if not user:return RedirectResponse('/login',303)
+    if user['role']!='owner': return RedirectResponse('/app',303)
     conn=db(); tid=tenant['id']
     # Extrato financeiro unificado e rastreavel. Vendas sao a fonte da receita de PDV;
     # movimentacoes manuais do Caixa e lancamentos manuais do Financeiro aparecem separadamente.
@@ -1132,6 +1146,7 @@ def membership_subscribe(request:Request,customer_id:int=Form(...),plan_id:int=F
 def reports_page(request:Request):
     user,tenant=require_tenant_user(request)
     if not user:return RedirectResponse('/login',303)
+    if user['role']!='owner': return RedirectResponse('/app',303)
     conn=db(); tid=tenant['id']
     # Relatórios operacionais são derivados de vendas pagas. Isso evita contar agendamentos cancelados,
     # faltas, concluídos ainda não cobrados ou dados estruturais como se fossem faturamento.
@@ -1227,12 +1242,14 @@ def team_reset_password(request:Request,user_id:int,password:str=Form(...)):
 def settings_page(request:Request):
     user,tenant=require_tenant_user(request)
     if not user:return RedirectResponse('/login',303)
+    if user['role']!='owner': return RedirectResponse('/app',303)
     conn=db(); st=conn.execute('SELECT * FROM tenant_settings WHERE tenant_id=?',(tenant['id'],)).fetchone(); conn.close(); return templates.TemplateResponse('settings.html',{'request':request,'user':user,'tenant':tenant,'st':st})
 
 @app.post('/app/settings')
 def settings_save(request:Request,whatsapp_number:str=Form(''),reminder_hours:int=Form(24),google_review_url:str=Form(''),cancellation_policy:str=Form('')):
     user,tenant=require_tenant_user(request)
     if not user:return RedirectResponse('/login',303)
+    if user['role']!='owner': return RedirectResponse('/app',303)
     conn=db(); conn.execute('INSERT INTO tenant_settings(tenant_id,whatsapp_number,reminder_hours,google_review_url,cancellation_policy,updated_at) VALUES(?,?,?,?,?,?) ON CONFLICT(tenant_id) DO UPDATE SET whatsapp_number=excluded.whatsapp_number,reminder_hours=excluded.reminder_hours,google_review_url=excluded.google_review_url,cancellation_policy=excluded.cancellation_policy,updated_at=excluded.updated_at',(tenant['id'],whatsapp_number,reminder_hours,google_review_url,cancellation_policy,now())); conn.commit(); conn.close(); return RedirectResponse('/app/settings',303)
 
 # Billing / SaaS subscriptions with Asaas hosted checkout (PIX or credit card)
@@ -1250,6 +1267,7 @@ def asaas_checkout(payload):
 def billing_page(request:Request):
     user,tenant=require_tenant_user(request)
     if not user:return RedirectResponse('/login',303)
+    if user['role']!='owner': return RedirectResponse('/app',303)
     conn=db(); plans=conn.execute('SELECT * FROM saas_plans WHERE active=1 ORDER BY price').fetchall(); sub=conn.execute("SELECT su.*,sp.name plan,sp.price FROM subscriptions su JOIN saas_plans sp ON sp.id=su.plan_id WHERE su.tenant_id=?",(tenant['id'],)).fetchone(); orders=conn.execute('SELECT po.*,sp.name plan FROM payment_orders po JOIN saas_plans sp ON sp.id=po.plan_id WHERE po.tenant_id=? ORDER BY po.id DESC LIMIT 20',(tenant['id'],)).fetchall(); conn.close()
     return templates.TemplateResponse('billing.html',{'request':request,'user':user,'tenant':tenant,'plans':plans,'sub':sub,'orders':orders,'gateway_ready':bool(os.getenv('ASAAS_API_KEY'))})
 
