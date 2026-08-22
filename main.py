@@ -367,18 +367,6 @@ def barberhub_landing(request:Request):
 def health():
     return {'ok': True, 'service': 'barbersaas', 'env': APP_ENV}
 
-@app.get('/dev-reset-superadmin')
-def dev_reset_superadmin(token:str,new_password:str):
-    # Rota temporária para resetar a senha do superadmin quando não há Shell
-    # disponível (plano gratuito) e o e-mail de recuperação ainda não está
-    # configurado. Remover após o uso.
-    if token != os.getenv('DEV_RESET_TOKEN',''):
-        return {'ok': False, 'error': 'token inválido'}
-    conn=db()
-    conn.execute("UPDATE users SET password_hash=? WHERE role='superadmin'", (hash_password(new_password),))
-    conn.commit(); conn.close()
-    return {'ok': True, 'msg': 'senha do superadmin atualizada'}
-
 @app.get('/ready')
 def ready():
     try:
